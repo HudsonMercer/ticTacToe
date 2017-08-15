@@ -3,9 +3,13 @@ $(document).ready(function(){
     var gameTurn = 0,
       gameWinner = 'a',
       tttArray = $('.content2'),
-      lastPlayer =  'X';
+      lastPlayer =  'X',
+      colorScheme = {
+        red: '#AC433B',
+        green: '#2D843C',
+        blue: '#6C999F'
+      };
     $('.winPopup').hide();
-
 
     function testWin(){
         winSec(0, 1, 2);//row 1
@@ -18,28 +22,18 @@ $(document).ready(function(){
         winSec(2, 5, 8);//column 3
     }
 
-
     function winSec(a, b, c){
             if ($(tttArray[a]).text() === $(tttArray[b]).text() &&
                 $(tttArray[a]).text() === $(tttArray[c]).text() &&
                 $(tttArray[a]).text() != ''){
-                    $(tttArray[a]).css('background-color', '#2D843C');
-                    $(tttArray[b]).css('background-color', '#2D843C');
-                    $(tttArray[c]).css('background-color', '#2D843C');
-                    winGame($(tttArray[a]).text());
+                    $(tttArray[a]).css('background-color', colorScheme.green);
+                    $(tttArray[b]).css('background-color', colorScheme.green);
+                    $(tttArray[c]).css('background-color', colorScheme.green);
                     $('.winPopup').show();
                     $('.winPopup').html('<br/><br/><br/>' + lastPlayer + ' Wins!<br/>Click to reset');
                     }
 
         }
-
-
-
-    function winGame(winnerLetter){
-        $('.content2').text('');
-        gameTurn = 3;
-    }
-
 
     $('.content2').click(function(){
         event.stopPropagation();
@@ -65,11 +59,10 @@ $(document).ready(function(){
         }
     });
 
-
     $('.winPopup').click(function(){
         event.stopPropagation();
         $(this).hide();
-        $('.content2').css('background-color', '#AC433B');
+        $('.content2').css('background-color', colorScheme.red);
         gameTurn = 0;
         $('.content2').text('');
     });

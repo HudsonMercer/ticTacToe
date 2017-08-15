@@ -16,18 +16,28 @@ body{
 
 .content2{
     text-align: center;
-    height: 27vh;
-    width: 30%;
+    font-size: 5vw;
+    height: 22vh;
+    width: 31vw;
     display: inline-block;
-    margin: 2px;
+    margin: 1vw;
     background-color: #AC433B;
-    padding: .5em;
+    padding: 5vh 0em 0em 0em;
     vertical-align: top;
     border-radius: 1vw;
+    box-shadow: 0px 0px 20px #222;
+}
+
+.content2:hover{
+  cursor: pointer;
+}
+
+ul{
+  padding: 0;
 }
 
 .winPopup{
-    top: 35vh;
+    top: 41vh;
     position: absolute;
     color: black;
     background-color: #2D843C;
