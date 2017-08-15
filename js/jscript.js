@@ -1,11 +1,12 @@
 $(document).ready(function(){
     //Global Vars
-    var gameTurn = 0;
-    var gameWinner = 'a';
-    var tttArray = $('.content2');
-    var lastPlayer =  'X';
+    var gameTurn = 0,
+      gameWinner = 'a',
+      tttArray = $('.content2'),
+      lastPlayer =  'X';
     $('.winPopup').hide();
-    
+
+
     function testWin(){
         winSec(0, 1, 2);//row 1
         winSec(3, 4, 5);//row 2
@@ -16,34 +17,34 @@ $(document).ready(function(){
         winSec(1, 4, 7);//column 2
         winSec(2, 5, 8);//column 3
     }
-    
-    
+
+
     function winSec(a, b, c){
             if ($(tttArray[a]).text() === $(tttArray[b]).text() &&
                 $(tttArray[a]).text() === $(tttArray[c]).text() &&
                 $(tttArray[a]).text() != ''){
-                    $(tttArray[a]).css('background-color', 'green');
-                    $(tttArray[b]).css('background-color', 'green');
-                    $(tttArray[c]).css('background-color', 'green');
+                    $(tttArray[a]).css('background-color', '#2D843C');
+                    $(tttArray[b]).css('background-color', '#2D843C');
+                    $(tttArray[c]).css('background-color', '#2D843C');
                     winGame($(tttArray[a]).text());
                     $('.winPopup').show();
                     $('.winPopup').html('<br/><br/><br/>' + lastPlayer + ' Wins!<br/>Click to reset');
                     }
-                    
+
         }
-    
-            
+
+
 
     function winGame(winnerLetter){
         $('.content2').text('');
         gameTurn = 3;
     }
-    
-    
+
+
     $('.content2').click(function(){
         event.stopPropagation();
         var curText = $(this).text();
-        
+
         if(gameTurn === 0 && $(this).text() === ''){
             gameTurn = 1;
             $(this).text('X');
@@ -55,22 +56,21 @@ $(document).ready(function(){
             lastPlayer = 'O';
             testWin();
         }
-        
+
         var arrayTie = $('.content2').text();
-        console.log(arrayTie.length, tttArray.length);
+        // console.log(arrayTie.length, tttArray.length);
         if(tttArray.length == arrayTie.length) {
             $('.winPopup').show();
             $('.winPopup').html('<br/><br/><br/>Tie! <br/>Click to reset!');
-        }      
+        }
     });
-        
-    
+
+
     $('.winPopup').click(function(){
         event.stopPropagation();
         $(this).hide();
-        $('.content2').css('background-color', 'red');  
+        $('.content2').css('background-color', '#AC433B');
         gameTurn = 0;
         $('.content2').text('');
     });
 });
-
