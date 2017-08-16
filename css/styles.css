@@ -34,10 +34,12 @@ body{
 
 ul{
   padding: 0;
+  margin: 0;
 }
 
 .winPopup{
     top: 41vh;
+    font-size: 20;
     position: absolute;
     color: black;
     background-color: #2D843C;

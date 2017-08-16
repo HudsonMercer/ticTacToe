@@ -31,20 +31,20 @@ $(document).ready(function(){
                     $(tttArray[c]).css('background-color', colorScheme.green);
                     $('.winPopup').show();
                     $('.winPopup').html('<br/><br/><br/>' + lastPlayer + ' Wins!<br/>Click to reset');
+                    gameTurn = 3;
                     }
-
         }
 
     $('.content2').click(function(){
         event.stopPropagation();
         var curText = $(this).text();
 
-        if(gameTurn === 0 && $(this).text() === ''){
+        if(gameTurn === 0 && curText === ''){
             gameTurn = 1;
             $(this).text('X');
             lastPlayer = 'X';
             testWin();
-        } else if(gameTurn === 1 && $(this).text() === ''){
+        } else if(gameTurn === 1 && curText === ''){
             gameTurn = 0;
             $(this).text('O');
             lastPlayer = 'O';
@@ -53,7 +53,7 @@ $(document).ready(function(){
 
         var arrayTie = $('.content2').text();
         // console.log(arrayTie.length, tttArray.length);
-        if(tttArray.length == arrayTie.length) {
+        if(tttArray.length === arrayTie.length - 1) {
             $('.winPopup').show();
             $('.winPopup').html('<br/><br/><br/>Tie! <br/>Click to reset!');
         }
