@@ -2,6 +2,42 @@ body{
     overflow-x: hidden;
 }
 
+.sesIDContainer {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 999;
+  background-color: black;
+  color: white;
+}
+.loginBtn {
+  width: 75%;
+  height: 20%;
+  top: 1.5vh;
+  position: relative;
+}
+
+.loginScreen {
+  position: absolute;
+  top: 10vh;
+  left: 45vw;
+  width: 10vw;
+  height: 30vh;
+  background: white;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.75);
+  z-index: 999;
+  text-align: center;
+}
+
+.loginTop {
+  background-color: #6C999F;
+  height: 50%;
+}
+
+.loginBot {
+  background-color: #2D843C;
+  height: 50%;
+}
 .content1 {
     position: absolute;
     top: 0;

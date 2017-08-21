@@ -1,6 +1,7 @@
-$(document).ready(function(){
+var jqueryGlobalObj = $(document).ready(function(){
     //Global Vars
-    var gameTurn = 0,
+    var userName = 'default',
+      gameTurn = 0,
       gameWinner = 'a',
       tttArray = $('.content2'),
       lastPlayer =  'X',
@@ -8,8 +9,20 @@ $(document).ready(function(){
         red: '#AC433B',
         green: '#2D843C',
         blue: '#6C999F'
-      };
+      },
+      firebaseRef = firebase.database().ref(),
+      sessionID = Math.random().toString(36).substring(7);
+
     $('.winPopup').hide();
+    $('.sesID').text(sessionID);
+    $('#loginSesIDInput').val(sessionID);
+    // firebaseRef.child(sessionID).set('Game Active!');
+
+    function openSession(){
+      userName = $('#loginNameInput').val();
+      sessionID = $('#loginSesIDInput').val();
+      firebaseRef.child(sessionID).set(userName);
+    }
 
     function testWin(){
         winSec(0, 1, 2);//row 1
@@ -20,6 +33,7 @@ $(document).ready(function(){
         winSec(0, 3, 6);//column 1
         winSec(1, 4, 7);//column 2
         winSec(2, 5, 8);//column 3
+        firebaseRef.child(sessionID).set(lastPlayer);
     }
 
     function winSec(a, b, c){
@@ -52,8 +66,7 @@ $(document).ready(function(){
         }
 
         var arrayTie = $('.content2').text();
-        // console.log(arrayTie.length, tttArray.length);
-        if(tttArray.length === arrayTie.length - 1) {
+        if(tttArray.length === arrayTie.length) {
             $('.winPopup').show();
             $('.winPopup').html('<br/><br/><br/>Tie! <br/>Click to reset!');
         }
@@ -66,4 +79,6 @@ $(document).ready(function(){
         gameTurn = 0;
         $('.content2').text('');
     });
+
+    $('.loginBtn').on('click', openSession);
 });
