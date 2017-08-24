@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Tic Tac Toe - Jquery</title>
+    <title>Tic Tac Toe - Jquery/Firebase</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
 <script>
@@ -19,21 +19,32 @@
 </head>
 <body>
   <link rel="stylesheet" href="css/styles.css">
-  <div class="sesIDContainer">Session ID: <span class="sesID"></span></div>
 
   <div class="loginScreen">
     <div class="loginTop">
       <span>CHOOSE NAME</span>
-      <input type="text" name="userNameTxtbx" value="DEFAULT VALUE" id="loginNameInput">
+      <input type="text" name="userNameTxtbx" value="" placeholder="Your Name Here" id="loginNameInput">
     </div>
     <div class="loginBot">
-      <span>Input session ID or make your own.<br/>Generated ID: <span class="sesID"></span></span>
+      <span>Input existing session ID or host a new session.<br/>Generated ID: <span class="sesID"></span></span>
       <input type="text" name="sesIDTxtbx" value="" id="loginSesIDInput"><br/>
-      <button type="button" name="loginBtn" class="loginBtn">Start Session</button>
+      <div class="hostJoinContainer">
+        <button type="button" name="loginBtn" class="loginBtn">Host</button>
+        <button type="button" name="joinBtn" class="joinBtn">Join</button>
+      </div>
     </div>
   </div>
 
   <div class="content1">
+
+    <!-- <div class="sesIDContainer">Session ID: <span class="sesID"></span></div> -->
+    <div class="sessionDash">
+      <div class="dashItem" id="playerTurn">Player Turn: X</div>
+      <div class="dashItem" id="sessionID">Session ID: </div>
+      <div class="dashItem" id="playerNames">Host Name: <br/>Client Name: </div>
+      <div class="dashItem" id="observerNames">observer 1<br/>observer 2<br/>observer 3</div>
+    </div>
+
       <ul>
           <li id="ttt0" class="content2"></li>
           <li id="ttt1" class="content2"></li>

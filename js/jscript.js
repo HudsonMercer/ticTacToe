@@ -1,4 +1,4 @@
-var jqueryGlobalObj = $(document).ready(function(){
+$(document).ready(function(){
     //Global Vars
     var userName = 'default',
       gameTurn = 0,
@@ -10,7 +10,9 @@ var jqueryGlobalObj = $(document).ready(function(){
         green: '#2D843C',
         blue: '#6C999F'
       },
-      firebaseRef = firebase.database().ref(),
+      curDate = Date().toString(),
+      firebaseRef = undefined,
+      playerState = undefined,
       sessionID = Math.random().toString(36).substring(7);
 
     $('.winPopup').hide();
@@ -18,10 +20,31 @@ var jqueryGlobalObj = $(document).ready(function(){
     $('#loginSesIDInput').val(sessionID);
     // firebaseRef.child(sessionID).set('Game Active!');
 
+    function yell(){
+      console.log(Date());
+    }
+    
     function openSession(){
-      userName = $('#loginNameInput').val();
       sessionID = $('#loginSesIDInput').val();
-      firebaseRef.child(sessionID).set(userName);
+      userName = $('#loginNameInput').val();
+      firebaseRef = firebase.database().ref('/sessions/' + '/' + sessionID + '/');
+      // if (firebaseRef.once('host').then(() => return false) ){
+      //
+      // } else {
+      //   //show the failure if the host already exists
+      // }
+      firebaseRef.child('host').set(userName);
+      firebaseRef.child('createdOn').set(curDate);
+      playerState = 'host';
+      firebaseRef.child('host').on('value', yell);
+      $('.loginScreen').hide();
+      $('#sessionID').text('Session ID: ' + sessionID + ' ');
+
+    }
+
+    function joinSession(){
+      var a = 'some stuff';
+      // TODO: Add join session logic here
     }
 
     function testWin(){
@@ -56,11 +79,13 @@ var jqueryGlobalObj = $(document).ready(function(){
         if(gameTurn === 0 && curText === ''){
             gameTurn = 1;
             $(this).text('X');
+            $('#playerTurn').text('Player Turn: O');
             lastPlayer = 'X';
             testWin();
         } else if(gameTurn === 1 && curText === ''){
             gameTurn = 0;
             $(this).text('O');
+            $('#playerTurn').text('Player Turn: X');
             lastPlayer = 'O';
             testWin();
         }
@@ -78,7 +103,10 @@ var jqueryGlobalObj = $(document).ready(function(){
         $('.content2').css('background-color', colorScheme.red);
         gameTurn = 0;
         $('.content2').text('');
+        $('#playerTurn').text('Player Turn: X');
     });
 
     $('.loginBtn').on('click', openSession);
+
+    $('#sessionID').click()
 });
