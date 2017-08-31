@@ -5,6 +5,10 @@ body{
     font-family: Helvetica;
 }
 
+.observerName {
+  opacity: 0;
+  animation: fadeIn 1.5s forwards;
+}
 
 .sesIDContainer {
   position: absolute;
@@ -128,7 +132,10 @@ ul{
     z-index: 9999;
     height: 10em;
     width: 100vw;
-    border: solid;
-    border-width: -2px;
-    border-color: black;
+    border: 2px solid black;
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
 }

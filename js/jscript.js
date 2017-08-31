@@ -1,12 +1,11 @@
-$(document).ready(function(){
-    //Global Vars
+// $(document).ready(function(){
+    //"Global" Vars
     var session = {
     userName: 'default',
-    gameTurn: '0',
     tttArray: $('content2'),
     lastPlayer: 'O',
+    playerState: undefined,
     firebaseRef: undefined,
-    state: undefined,
     curDate: Date().toString(),
     ID: Math.random().toString(36).substring(7),
     open: function(){
@@ -14,14 +13,52 @@ $(document).ready(function(){
       session.ID = $('#loginSesIDInput').val() || session.ID;
       session.playerState = 'host';
       session.firebaseRef = firebase.database().ref('/sessions/' + session.ID);
-      session.firebaseRef.child('host').set(session.userName);
+      session.firebaseRef.child('hostName').set(session.userName);
       session.firebaseRef.child('createdOn').set(session.curDate);
       session.firebaseRef.child('lastPlayer').set(session.lastPlayer);
-      $('#sessionID').text('Session ID: ' + session.ID + ' ');
+      session.firebaseRef.child('clientName').set('No Player');
+      $('#sessionIDContainer').html('Session ID: <span id="sessionID">' + session.ID + '</span>');
       $('.loginScreen').hide();
+      $('.hostName').text(session.userName);
+      $('.clientName').text('No Player');
+      session.startPlayerList();
+
     },
-    speak: function(){
-      return session.userName;
+    startPlayerList: function(){
+      session.firebaseRef.child('hostName').once('value', function(hostName){
+        $('.hostName').text(hostName.val());
+      });
+
+      session.firebaseRef.child('clientName').on('value', function(clientName){
+        $('.clientName').text(clientName.val());
+      });
+
+      session.firebaseRef.child('observers').on('value', function(observerList){
+        $('#observerNames').html('');
+        observerList.forEach(function(observerName){
+          $('#observerNames').append( '<span class="observerName">' + observerName.val() + '</span><br/>' );
+        })
+      });
+    },
+    join: function(){
+      session.firebaseRef = firebase.database().ref('/sessions/' + session.ID);
+
+      if(session.firebaseRef.once('value', function(exists){
+          if(exists.val() !== null){
+            console.log(exists.val());
+            alert('no game!');
+            return true;
+          } else {
+            console.log(exists.val());
+            return false;
+          }
+        })){
+          //session.firebaseRef.child('clientName').set(session.userName);
+          //session.startPlayerList();
+        } else {
+          alert('Session does not exist.');
+        }
+      //TODO: join a game in progress
     }
   },
   colorScheme = {
@@ -31,19 +68,7 @@ $(document).ready(function(){
 };
 
     $('.winPopup').hide();
-    $('.sesID').text(session.ID);
     $('#loginSesIDInput').val(session.ID);
-
-    function yell(){
-      console.log(Date());
-    }
-
-    function joinSession(){
-      playerState = 'client';
-      var a = 'some stuff';
-      // TODO: Add join session logic here
-      $('.loginScreen').hide();
-    }
 
     function testWin(){
         checkScenario(0, 1, 2);//row 1
@@ -58,6 +83,8 @@ $(document).ready(function(){
 
     function checkScenario(a, b, c){
       var scorePath = session.firebaseRef.child(session.lastPlayer + 'score');
+      session.tttArray = $('.content2');
+
             if ($(session.tttArray[a]).text() === $(session.tttArray[b]).text() &&
                 $(session.tttArray[a]).text() === $(session.tttArray[c]).text() &&
                 $(session.tttArray[a]).text() != ''){
@@ -70,7 +97,7 @@ $(document).ready(function(){
                     scorePath.once('value', function(snapshot){
                       scorePath.set(snapshot.val() + 1);
                     });
-                    session.firebaseRef.child('winner').set(session.lastPlayer);
+                    session.firebaseRef.child('lastWinner').set(session.lastPlayer);
                     session.lastPlayer = 'R';
                     }
         }
@@ -81,7 +108,7 @@ $(document).ready(function(){
 
         if(session.lastPlayer === 'O' && curText === ''){
             session.lastPlayer = 'X';
-            session.firebaseRef.child('lastPlayer').set(session.lastPlayer); //Called before we change the turn, represents the current players turn.
+            session.firebaseRef.child('lastPlayer').set(session.lastPlayer);
             $(this).text(session.lastPlayer);
             $('#playerTurn').text('Player Turn: O');
             testWin();
@@ -113,4 +140,4 @@ $(document).ready(function(){
     $('.joinBtn').on('click', session.join);
 
     $('#sessionID').click();
-});
+// });
