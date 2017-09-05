@@ -17,12 +17,13 @@
       session.firebaseRef.child('createdOn').set(session.curDate);
       session.firebaseRef.child('lastPlayer').set(session.lastPlayer);
       session.firebaseRef.child('clientName').set('No Player');
+      session.firebaseRef.child('tttArray').set('EEEEEEEEE');
       $('#sessionIDContainer').html('Session ID: <span id="sessionID">' + session.ID + '</span>');
       $('.loginScreen').hide();
       $('.hostName').text(session.userName);
       $('.clientName').text('No Player');
       session.startPlayerList();
-
+      session.startBoardWatcher();
     },
     startPlayerList: function(){
       session.firebaseRef.child('hostName').once('value', function(hostName){
@@ -39,6 +40,9 @@
           $('#observerNames').append( '<span class="observerName">' + observerName.val() + '</span><br/>' );
         })
       });
+    },
+    startBoardWatcher: function(){
+      session.firebaseRef.child('tttArray').on('value', session.boardPull);
     },
     join: function(){
       session.firebaseRef = firebase.database().ref('/sessions/' + session.ID);
@@ -59,6 +63,39 @@
           alert('Session does not exist.');
         }
       //TODO: join a game in progress
+    },
+    boardPull: function(){
+      var i = 0,
+      remoteArray = '';
+
+      session.firebaseRef.child('tttArray').once('value').then(function(snap){
+        // console.log('Pulled: ' + snap.val());
+        remoteArray = snap.val();
+        // console.log(remoteArray);
+        for(i = 0; i < session.tttArray.length; i ++){
+          if(remoteArray[i] === 'E'){
+              $(session.tttArray[i]).text('');
+          } else {
+              $(session.tttArray[i]).text(remoteArray[i]);
+          }
+        }
+        // console.log('Wubba lubba dub dub!');
+      });
+    },
+    boardPush: function(){
+      var internalArray = '',
+      i = 0;
+
+      for(i=0; i < session.tttArray.length; i++){
+        if($(session.tttArray[i]).text() !== ''){
+            internalArray += $(session.tttArray[i]).text();
+          } else {
+            internalArray += 'E';
+          }
+        }
+
+      console.log('pushing: ' + internalArray);
+      session.firebaseRef.child('tttArray').set(internalArray);
     }
   },
   colorScheme = {
@@ -125,6 +162,8 @@
             $('.winPopup').show();
             $('.winPopup').html('<br/><br/><br/>Tie! <br/>Click to reset!');
         }
+
+        session.boardPush();
     });
 
     $('.winPopup').click(function(){
