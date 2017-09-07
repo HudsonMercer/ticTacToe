@@ -1,3 +1,5 @@
+//V2.0 RC Internet Multiplayer, Firebase integration, Jquery DOM manipulation
+
 // $(document).ready(function(){
     //"Global" Vars
     var session = {
@@ -15,21 +17,67 @@
       session.ID = $('#loginSesIDInput').val() || session.ID;
       session.playerState = 'host';
       session.firebaseRef = firebase.database().ref('/sessions/' + session.ID);
-      session.firebaseRef.child('hostName').set(session.userName);
-      session.firebaseRef.child('createdOn').set(session.curDate);
-      session.firebaseRef.child('lastPlayer').set(session.lastPlayer);
-      session.firebaseRef.child('clientName').set('No Player');
-      session.firebaseRef.child('tttArray').set('EEEEEEEEE');
-      session.firebaseRef.child('ready').set('true');
-      session.firebaseRef.child('gameState').set('hosted');
-      session.firebaseRef.child('closeWinBanner').set('0');
-      $('#sessionIDContainer').html('Session ID: <span id="sessionID">' + session.ID + '</span>');
-      $('.loginScreen').hide();
-      $('.hostName').text(session.userName);
-      $('.clientName').text('No Player');
-      session.startPlayerList();
-      session.startBoardWatcher();
-      session.playerState = 'X';
+      session.firebaseRef.child('gameState').once('value').then(function(snap){
+        if(snap.val() === null || snap.val() === 'unhosted'){
+          session.firebaseRef.child('hostName').set(session.userName);
+          session.firebaseRef.child('createdOn').set(session.curDate);
+          session.firebaseRef.child('lastPlayer').set(session.lastPlayer);
+          session.firebaseRef.child('clientName').set('No Player');
+          session.firebaseRef.child('tttArray').set('EEEEEEEEE');
+          session.firebaseRef.child('ready').set('true');
+          session.firebaseRef.child('gameState').set('hosted');
+          session.firebaseRef.child('closeWinBanner').set('0');
+          $('#sessionIDContainer').html('Session ID: <span id="sessionID">' + session.ID + '</span>');
+          $('.loginScreen').hide();
+          $('.hostName').text(session.userName);
+          $('.clientName').text('No Player');
+          session.startPlayerList();
+          session.startBoardWatcher();
+          session.playerState = 'X';
+        } else {
+          alert('Game is already owned by another player!')
+        }
+      });
+    },
+    join: function(){
+      session.host = false;
+      session.userName = $('#loginNameInput').val() || session.userName;
+      session.ID = $('#loginSesIDInput').val() || session.ID;
+      session.firebaseRef = firebase.database().ref('/sessions/' + session.ID);
+      session.firebaseRef.once('value').then(function(snap){
+        if(snap.val() !== null && snap.val().gameState === 'hosted'){
+          session.boardPull();
+          session.startPlayerList();
+          session.startBoardWatcher();
+          session.firebaseRef.child('gameState').set('full');
+          session.firebaseRef.child('clientName').set(session.userName);
+          $('#sessionIDContainer').html('Session ID: <span id="sessionID">' + session.ID + '</span>');
+          $('.loginScreen').hide();
+          session.playerState = 'O';
+        } else if(snap.val() !== null && snap.val().gameState === 'full'){
+          session.boardPull();
+          session.startPlayerList();
+          session.startBoardWatcher();
+          session.playerState = 'observer';
+          session.firebaseRef.child('observers').child(session.userName).set(session.userName);
+          $('.loginScreen').hide();
+        } else if(snap.val() !== null && snap.val().gameState === 'unhosted'){
+          confirm('Game unhosted! Would you like to host it?');
+        } else if(snap.val() === null){
+          alert('Cannot find game!');
+        } else if(snap.val() !== null && snap.val().gameState === null){
+          alert('Something happened and the game wasn\'t initialized properly, try hosting a new game.');
+        }
+      });
+    },
+    leave: function(){
+      if(session.playerState === 'X'){
+        session.firebaseRef.child('gameState').set('unhosted');
+      } else if(session.playerState === 'O') {
+        session.firebaseRef.child('gameState').set('hosted');
+      } else {
+        session.firebaseRef.child('observers').child(session.userName).remove();
+      }
     },
     startPlayerList: function(){
       session.firebaseRef.child('hostName').on('value', function(hostName){
@@ -49,47 +97,17 @@
 
       session.firebaseRef.child('lastPlayer').on('value', function(snap){
         $('#playerTurn').text('Player Turn: ' + (snap.val() === 'X' ? 'O' : 'X'));
+        session.lastPlayer = snap.val();
       });
     },
     startBoardWatcher: function(){
       session.firebaseRef.child('tttArray').on('value', session.boardPull);
     },
-    join: function(){
-      session.host = false;
-      session.userName = $('#loginNameInput').val() || session.userName;
-      session.ID = $('#loginSesIDInput').val() || session.ID;
-      session.firebaseRef = firebase.database().ref('/sessions/' + session.ID);
-      session.firebaseRef.once('value').then(function(snap){
-        if(snap.val() !== null && snap.val().gameState === 'hosted'){
-          session.startPlayerList();
-          session.startBoardWatcher();
-          session.firebaseRef.child('gameState').set('full');
-          session.firebaseRef.child('clientName').set(session.userName);
-          $('#sessionIDContainer').html('Session ID: <span id="sessionID">' + session.ID + '</span>');
-          $('.loginScreen').hide();
-          session.playerState = 'O';
-        } else if(snap.val() !== null && snap.val().gameState === 'full'){
-          session.startPlayerList();
-          session.startBoardWatcher();
-          session.playerState = 'observer';
-          $('.loginScreen').hide();
-        } else if(snap.val() !== null && snap.val().gameState === 'unhosted'){
-          // Game is unhosted, ask if they would like to host.
-        } else if(snap.val() === null){
-          alert('Cannot find game!');
-        } else if(snap.val() !== null && snap.val().gameState === null){
-          alert('Something happened and the game wasn\'t initialized properly, try hosting a new game.');
-        }
-      });
-    },
     boardPull: function(){
       var i = 0,
       remoteArray = '';
-
       session.firebaseRef.child('tttArray').once('value').then(function(snap){
-        // console.log('Pulled: ' + snap.val());
         remoteArray = snap.val();
-        // console.log(remoteArray);
         for(i = 0; i < session.tttArray.length; i ++){
           if(remoteArray[i] === 'E'){
               $(session.tttArray[i]).text('');
@@ -98,7 +116,6 @@
           }
         }
         testWin();
-        // console.log('Wubba lubba dub dub!');
       });
     },
     boardPush: function(){
@@ -124,11 +141,13 @@
 };
 
     $('.winPopup').hide();
+    $('.winPopupShadow').hide();
 
     function closeWinBanner(overrideHost){
       if (session.host === true || overrideHost === true){
           event.stopPropagation();
           $('.winPopup').hide();
+          $('.winPopupShadow').hide();
           $('.content2').css('background-color', colorScheme.red);
           session.lastPlayer = 'O';
           session.firebaseRef.child('tttArray').set('EEEEEEEEE');
@@ -149,7 +168,8 @@
     }
 
     function checkScenario(a, b, c){
-      var scorePath = session.firebaseRef.child(session.lastPlayer + 'score');
+      var scorePath = session.firebaseRef.child(session.lastPlayer + 'score'),
+      scorePathTie = session.firebaseRef.child('Tscore');
       session.tttArray = $('.content2');
 
             if ($(session.tttArray[a]).text() === $(session.tttArray[b]).text() &&
@@ -160,9 +180,13 @@
                     $(session.tttArray[c]).css('background-color', colorScheme.green);
                     session.firebaseRef.child('lastPlayer').once('value').then(function(winner){
                       $('.winPopup').show();
+                      $('.winPopupShadow').show();
 
                       if (session.host === true){
                         $('.winPopup').html('<br/><br/><br/>' + winner.val() + ' Wins!<br/>Click to reset');
+                        scorePath.once('value', function(snap){
+                          scorePath.set(snap.val() + 1);
+                        });
                       } else {
                         $('.winPopup').html('<br/><br/><br/>' + winner.val() + ' Wins!<br/>Wait for ' + $('.hostName').text() + ' to reset');
 
@@ -174,21 +198,31 @@
                           }
                         });
                       }
-
-                      scorePath.once('value', function(snap){
-                        scorePath.set(snap.val() + 1);
-                      });
                       return null;
                     });
-                    session.firebaseRef.child('lastWinner').set(session.lastPlayer);
-                    session.lastPlayer = 'E';
-
-                  } else if($('.content2').text().length === 9) {
+                  } else if ($('.content2').text().length === 9) {
                       $('.winPopup').show();
-                      $('.winPopup').html('<br/><br/><br/>' + 'Tie!' + '<br/>Click to reset');
-                      session.lastPlayer = 'T';
-                  }
+                      $('.winPopupShadow').show();
+                      if (session.host === true){
+                        $('.winPopup').html('<br/><br/><br/>' + 'Tie!' + '<br/>Click to reset');
+                        session.lastPlayer = 'T';
+                        session.firebaseRef.child('lastWinner').set(session.lastPlayer);
+                        scorePathTie.once('value', function(snap){
+                          scorePathTie.set(snap.val() + 1);
+                        });
+                      } else {
+                        $('.winPopup').html('<br/><br/><br/>' + 'Tie!' + '<br/>Wait for ' + $('.hostName').text() + ' to reset');
+                        session.lastPlayer = 'T';
+                        session.firebaseRef.child('closeWinBanner').on('value', function(snap){
+                          if (snap.val() === '1'){
+                            closeWinBanner(true);
+                            session.firebaseRef.child('closeWinBanner').off('value');
+                            session.firebaseRef.child('closeWinBanner').set('0');
+                          }
+                        });
+                        }
         }
+      }
 
     function makePlay(){
       event.stopPropagation();
@@ -201,14 +235,14 @@
           session.boardPush();
         }
       });
-      // TODO: add handler for tie scenarios.
     }
 
-    $('.content2').click(false, makePlay);
+    $('.content2').click(makePlay);
 
     $('.winPopup').click(closeWinBanner);
 
     $('.loginBtn').on('click', session.open);
     $('.joinBtn').on('click', session.join);
+    $(window).on('unload', session.leave);
 
 // });

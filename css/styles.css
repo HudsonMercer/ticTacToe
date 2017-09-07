@@ -135,6 +135,18 @@ ul{
     border: 2px solid black;
 }
 
+.winPopupShadow{
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin: 0px;
+  padding: 0px;
+  z-index: 9998;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
 @keyframes fadeIn {
   0% {opacity: 0;}
   100% {opacity: 1;}
