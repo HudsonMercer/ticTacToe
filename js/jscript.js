@@ -2,7 +2,18 @@
 
 // $(document).ready(function(){
     //"Global" Vars
-    var session = {
+    var lobby = {
+      a: 'some thing in here'
+    },
+    fbconfig = {
+      apiKey: "AIzaSyCWcbz2SwfHQDkVq9qu0_UmJT9giOVNVrM",
+      authDomain: "tictactoe-b8474.firebaseapp.com",
+      databaseURL: "https://tictactoe-b8474.firebaseio.com",
+      projectId: "tictactoe-b8474",
+      storageBucket: "tictactoe-b8474.appspot.com",
+      messagingSenderId: "1097292712686"
+    },
+    session = {
     userName: 'default',
     tttArray: $('content2'),
     host: undefined,
@@ -27,7 +38,7 @@
           session.firebaseRef.child('ready').set('true');
           session.firebaseRef.child('gameState').set('hosted');
           session.firebaseRef.child('closeWinBanner').set('0');
-          $('#sessionIDContainer').html('Session ID: <span id="sessionID">' + session.ID + '</span>');
+          $('#sessionIDContainer').html('Session ID: <span id="sessionID">' + session.ID + ' </span>');
           $('.loginScreen').hide();
           $('.hostName').text(session.userName);
           $('.clientName').text('No Player');
@@ -62,9 +73,13 @@
           session.firebaseRef.child('observers').child(session.userName).set(session.userName);
           $('.loginScreen').hide();
         } else if(snap.val() !== null && snap.val().gameState === 'unhosted'){
-          confirm('Game unhosted! Would you like to host it?');
+          if (confirm('Game unhosted! Would you like to host it?')){
+            session.open();
+          }
         } else if(snap.val() === null){
-          alert('Cannot find game!');
+          if (confirm('Cannot find game! Host new game?')){
+            session.open();
+          }
         } else if(snap.val() !== null && snap.val().gameState === null){
           alert('Something happened and the game wasn\'t initialized properly, try hosting a new game.');
         }
@@ -73,8 +88,10 @@
     leave: function(){
       if(session.playerState === 'X'){
         session.firebaseRef.child('gameState').set('unhosted');
+        session.firebaseRef.child('host').set('No Host')
       } else if(session.playerState === 'O') {
         session.firebaseRef.child('gameState').set('hosted');
+        session.firebaseRef.child('client').set('No Player');
       } else {
         session.firebaseRef.child('observers').child(session.userName).remove();
       }
@@ -91,7 +108,7 @@
       session.firebaseRef.child('observers').on('value', function(observerList){
         $('#observerNames').html('');
         observerList.forEach(function(observerName){
-          $('#observerNames').append( '<span class="observerName">' + observerName.val() + '</span><br/>' );
+          $('#observerNames').append( '<span class="observerName">' + observerName.val() + '</span><br/>');
         })
       });
 
@@ -110,9 +127,9 @@
         remoteArray = snap.val();
         for(i = 0; i < session.tttArray.length; i ++){
           if(remoteArray[i] === 'E'){
-              $(session.tttArray[i]).text('');
+              session.tttArray[i].textContent = '';
           } else {
-              $(session.tttArray[i]).text(remoteArray[i]);
+              session.tttArray[i].textContent = remoteArray[i];
           }
         }
         testWin();
@@ -123,8 +140,8 @@
       i = 0;
 
       for(i=0; i < session.tttArray.length; i++){
-        if($(session.tttArray[i]).text() !== ''){
-            internalArray += $(session.tttArray[i]).text();
+        if(session.tttArray[i].textContent !== ''){
+            internalArray += session.tttArray[i].textContent;
           } else {
             internalArray += 'E';
           }
@@ -140,8 +157,11 @@
     blue: '#6C999F'
 };
 
-    $('.winPopup').hide();
-    $('.winPopupShadow').hide();
+  firebase.initializeApp(fbconfig);
+  $('.winPopup').hide();
+  $('.winPopupShadow').hide();
+  $('.loginScreen').hide();
+  $('.sesID').text(session.ID + ' ');
 
     function closeWinBanner(overrideHost){
       if (session.host === true || overrideHost === true){
@@ -172,12 +192,12 @@
       scorePathTie = session.firebaseRef.child('Tscore');
       session.tttArray = $('.content2');
 
-            if ($(session.tttArray[a]).text() === $(session.tttArray[b]).text() &&
-                $(session.tttArray[a]).text() === $(session.tttArray[c]).text() &&
-                $(session.tttArray[a]).text() != ''){
-                    $(session.tttArray[a]).css('background-color', colorScheme.green);
-                    $(session.tttArray[b]).css('background-color', colorScheme.green);
-                    $(session.tttArray[c]).css('background-color', colorScheme.green);
+            if (session.tttArray[a].textContent === session.tttArray[b].textContent &&
+                session.tttArray[a].textContent === session.tttArray[c].textContent &&
+                session.tttArray[a].textContent != ''){
+                    session.tttArray[a].style.backgroundColor = colorScheme.green;
+                    session.tttArray[b].style.backgroundColor = colorScheme.green;
+                    session.tttArray[c].style.backgroundColor = colorScheme.green;
                     session.firebaseRef.child('lastPlayer').once('value').then(function(winner){
                       $('.winPopup').show();
                       $('.winPopupShadow').show();

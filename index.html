@@ -2,31 +2,122 @@
 <head>
     <meta charset="UTF-8">
     <title>Tic Tac Toe - Jquery/Firebase</title>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCWcbz2SwfHQDkVq9qu0_UmJT9giOVNVrM",
-    authDomain: "tictactoe-b8474.firebaseapp.com",
-    databaseURL: "https://tictactoe-b8474.firebaseio.com",
-    projectId: "tictactoe-b8474",
-    storageBucket: "tictactoe-b8474.appspot.com",
-    messagingSenderId: "1097292712686"
-  };
-  firebase.initializeApp(config);
-</script>
 </head>
 <body>
+  <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Roboto" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 
+  <div class="lobbyContainer">
+    <div class="lobbyHeader">
+      <div class="lobbyAvatar"><img src="res/avatar.png" alt="" class="lobbyAvatarImg"></div>
+      <div class="lobbyPlayerName"><div><h1>Hello, Scrubbles!</h1></div></div>
+      <div class="lobbyHeaderSettings">
+        <svg class="lobbyHeaderSettingsIcon" fill="#000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 0h24v24H0z" fill="none"/>
+          <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+        </svg>
+      </div>
+    </div>
+    <div class="lobbyGameList">
+      <div class="lobbyGameListItem">Some game Name: Joe</div>
+      <div class="lobbyGameListItem">Some game Name: Deb</div>
+      <div class="lobbyGameListItem">Some game Name: Arch</div>
+      <div class="lobbyGameListItem">Some game Name: LLVM</div>
+    </div>
+    <div class="lobbyChat">
+      <div class="lobbyChatHeader">CHAT SETTINGS GO IN HERE</div>
+      <div class="lobbyChatAreaUserListFlex">
+        <div class="lobbyChatArea">
+          <div class="lobbyChatItem">Chat placeholder</br>Chat placeholder</br>Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+          <div class="lobbyChatItem">Chat placeholder</div>
+        </div>
+        <div class="lobbyChatUserList">
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+          <div class="lobbyChatUserItem">Dude 33</div>
+        </div>
+      </div>
+      <div class="lobbyChatInput">
+        <input id="lobbyChatInputFieldID" type="text" name="lobbyChatInputField" value="" placeholder="Type a message here!"></input>
+        <div class="lobbyChatInputSubmit">
+          <div>Submit</div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="loginScreen">
     <div class="loginTop">
       <span>CHOOSE NAME</span>
       <input type="text" name="userNameTxtbx" value="" placeholder="Your Name Here" id="loginNameInput">
     </div>
     <div class="loginBot">
-      <span>Input existing session ID or host a new session.<br/>Generated ID: <span class="sesID"></span></span>
+      <span>Input existing session ID or host a new session.<br/><br/>Generated ID: <span class="sesID"></span></span>
       <input type="text" name="sesIDTxtbx" value="" id="loginSesIDInput"><br/>
       <div class="hostJoinContainer">
         <button type="button" name="loginBtn" class="loginBtn">Host</button>

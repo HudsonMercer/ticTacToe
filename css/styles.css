@@ -2,8 +2,193 @@ body{
     overflow-x: hidden;
     padding: 0px;
     margin: 0px;
-    font-family: Helvetica;
+    font-family: Roboto;
 }
+
+.lobbyContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+
+.lobbyHeader {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 10%;
+  min-height: 60px;
+  background-color: #6C989E;
+}
+
+.lobbyAvatar {
+  width: 10%;
+  height: 100%;
+  flex: 0 0;
+}
+
+.lobbyAvatarImg {
+  height: 100%;
+}
+
+.lobbyPlayerName {
+  background-color: #0F4850;
+  flex-basis: 20%;
+  text-align: center;
+}
+.lobbyHeaderSettings{
+  width: 10%;
+  margin-left: auto;
+  background-color: #0F4850;
+}
+
+.lobbyHeaderSettingsIcon{
+  width: 100%;
+  height: 100%;
+  fill: #6C989E;
+  fill-opacity: 1;
+}
+
+.lobbyHeaderSettingsIcon:hover {
+  filter: drop-shadow(3px 3px 9px #222);
+  cursor: pointer;
+  animation: rotate-btn 5s linear infinite;
+}
+
+.lobbyHeaderSettingsIcon:active {
+  fill: #A3C765;
+  filter: drop-shadow(3px 3px 5px #6C989E);
+}
+
+.lobbyPlayerName div {
+  position: relative;
+  top: 10%;
+  color: green;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
+}
+
+.lobbyGameList {
+  width: 100%;
+  height: 50%;
+  background-color: #0F4850;
+    overflow-y: scroll;
+}
+
+.lobbyGameListItem {
+  display: block;
+  width: 100%;
+  height: 25px;
+  color: #022F35;
+  background-color: green;
+  margin-top: 2px;
+  box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.35);
+}
+
+.lobbyGameListItem:nth-child(even) {
+  background-color: #6C989E;
+}
+
+.lobbyGameListItem:nth-child(odd) {
+  background-color: #447B83;
+}
+
+.lobbyChat {
+  width: 100%;
+  height: 40%;
+  background-color: red;
+}
+
+.lobbyChatHeader {
+  width: 100%;
+  height: 15%;
+  color: #6C999F;
+  background-color: #0F4850;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.25);
+}
+
+.lobbyChatAreaUserListFlex{
+  display: flex;
+}
+
+.lobbyChatArea{
+  background-color: #0F4850;
+  min-width: 85%;
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.lobbyChatItem{
+  width: 100%;
+  min-height: 1.5rem;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  margin-bottom: 1px;
+  user-select: text;
+  flex: 1 1;
+}
+.lobbyChatItem:nth-child(even){
+  background: #6C989E;
+}
+
+.lobbyChatItem:nth-child(odd){
+  background-color: #447B83;
+}
+
+.lobbyChatUserList {
+  min-width: 15%;
+  background-color: white;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 70%;
+}
+
+.lobbyChatUserItem{
+  width: 100%;
+  min-height: 1.5rem;
+}
+
+.lobbyChatUserItem:nth-child(even){
+  background: #6C989E;
+}
+
+.lobbyChatUserItem:nth-child(odd){
+  background-color: #447B83;
+}
+
+.lobbyChatInput{
+  display: flex;
+  flex-direction: row;
+  background-color: yellow;
+  width: 100%;
+  height: 15%;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.25);
+}
+
+#lobbyChatInputFieldID {
+  flex: 1 1;
+}
+.lobbyChatInputSubmit{
+  max-width: 15%;
+  background-color: #0F4850;
+  color: white;
+  flex: 1 0;
+  text-align: center;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+}
+
+.lobbyChatInputSubmit div{
+  margin-top: 8%;
+}
+.lobbyChatInputSubmit:hover{
+  background-color: #A3C765;
+}
+.lobbyChatInputSubmit:active {
+  background-color: #6C989E;
+}
+
 
 .observerName {
   opacity: 0;
@@ -14,7 +199,7 @@ body{
   position: absolute;
   top: 0px;
   left: 0px;
-  z-index: 999;
+  z-index: 2;
   background-color: black;
   color: white;
   display: none;
@@ -45,12 +230,12 @@ body{
 .loginScreen {
   position: absolute;
   top: 15vh;
-  left: 45vw;
-  width: 10vw;
-  height: 30vh;
+  left: 40%;
+  width: 20em;
+  height: 20em;
   background: white;
   box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.75);
-  z-index: 999;
+  z-index: 3;
   text-align: center;
 }
 
@@ -129,7 +314,7 @@ ul{
     color: black;
     background-color: #2D843C;
     text-align: center;
-    z-index: 9999;
+    z-index: 5;
     height: 10em;
     width: 100vw;
     border: 2px solid black;
@@ -143,11 +328,20 @@ ul{
   left: 0px;
   margin: 0px;
   padding: 0px;
-  z-index: 9998;
+  z-index: 4;
   background-color: rgba(0, 0, 0, 0.5);
 }
 
 @keyframes fadeIn {
   0% {opacity: 0;}
   100% {opacity: 1;}
+}
+
+@keyframes rotate-btn {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
