@@ -1,9 +1,8 @@
-body{
-    overflow-x: hidden;
-    padding: 0px;
-    margin: 0px;
-    font-family: Roboto;
-}
+body {
+  overflow-x: hidden;
+  padding: 0px;
+  margin: 0px;
+  font-family: Roboto; }
 
 .lobbyContainer {
   position: absolute;
@@ -12,8 +11,7 @@ body{
   z-index: 3;
   width: 100%;
   height: 100%;
-  user-select: none;
-}
+  user-select: none; }
 
 .lobbyHeader {
   display: flex;
@@ -21,61 +19,50 @@ body{
   width: 100%;
   height: 10%;
   min-height: 60px;
-  background-color: #6C989E;
-}
+  background-color: #33748D; }
 
 .lobbyAvatar {
   width: 10%;
   height: 100%;
-  flex: 0 0;
-}
+  flex: 0 0; }
 
 .lobbyAvatarImg {
-  height: 100%;
-}
+  height: 100%; }
 
 .lobbyPlayerName {
-  background-color: #0F4850;
+  background-color: #03394E;
   flex-basis: 20%;
-  text-align: center;
-}
-.lobbyHeaderSettings{
+  text-align: center; }
+
+.lobbyHeaderSettings {
   width: 10%;
   margin-left: auto;
-  background-color: #0F4850;
-}
+  background-color: #03394E; }
 
-.lobbyHeaderSettingsIcon{
+.lobbyHeaderSettingsIcon {
   width: 100%;
   height: 100%;
-  fill: #6C989E;
-  fill-opacity: 1;
-}
-
-.lobbyHeaderSettingsIcon:hover {
-  filter: drop-shadow(3px 3px 9px #222);
-  cursor: pointer;
-  animation: rotate-btn 5s linear infinite;
-}
-
-.lobbyHeaderSettingsIcon:active {
-  fill: #A3C765;
-  filter: drop-shadow(3px 3px 5px #6C989E);
-}
+  fill: #538DA3;
+  fill-opacity: 1; }
+  .lobbyHeaderSettingsIcon:hover {
+    filter: drop-shadow(3px 3px 9px #222);
+    cursor: pointer;
+    animation: rotate-btn 5s linear infinite; }
+  .lobbyHeaderSettingsIcon:active {
+    fill: #3AAB4E;
+    filter: drop-shadow(3px 3px 5px #538DA3); }
 
 .lobbyPlayerName div {
   position: relative;
   top: 10%;
-  color: green;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
-}
+  color: #1C9C32;
+  text-shadow: 2px 2px 5px black; }
 
 .lobbyGameList {
   width: 100%;
   height: 50%;
-  background-color: #0F4850;
-    overflow-y: scroll;
-}
+  background-color: #03394E;
+  overflow-y: scroll; }
 
 .lobbyGameListItem {
   display: block;
@@ -84,116 +71,89 @@ body{
   color: #022F35;
   background-color: green;
   margin-top: 2px;
-  box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.35);
-}
-
-.lobbyGameListItem:nth-child(even) {
-  background-color: #6C989E;
-}
-
-.lobbyGameListItem:nth-child(odd) {
-  background-color: #447B83;
-}
+  box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.35); }
+  .lobbyGameListItem:nth-child(even) {
+    background-color: #538DA3; }
+  .lobbyGameListItem:nth-child(odd) {
+    background-color: #33748D; }
 
 .lobbyChat {
   width: 100%;
   height: 40%;
-  background-color: red;
-}
+  background-color: #CB3024; }
 
 .lobbyChatHeader {
   width: 100%;
   height: 15%;
   color: #6C999F;
-  background-color: #0F4850;
-  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.25);
-}
+  background-color: #03394E;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.25); }
 
-.lobbyChatAreaUserListFlex{
-  display: flex;
-}
+.lobbyChatAreaUserListFlex {
+  display: flex; }
 
-.lobbyChatArea{
-  background-color: #0F4850;
+.lobbyChatArea {
+  background-color: #03394E;
   min-width: 85%;
   height: 70%;
-  overflow-y: scroll;
-}
+  overflow-y: scroll; }
 
-.lobbyChatItem{
+.lobbyChatItem {
   width: 100%;
   min-height: 1.5rem;
   padding-top: 3px;
   padding-bottom: 3px;
   margin-bottom: 1px;
   user-select: text;
-  flex: 1 1;
-}
-.lobbyChatItem:nth-child(even){
-  background: #6C989E;
-}
-
-.lobbyChatItem:nth-child(odd){
-  background-color: #447B83;
-}
+  flex: 1 1; }
+  .lobbyChatItem:nth-child(even) {
+    background: #538DA3; }
+  .lobbyChatItem:nth-child(odd) {
+    background-color: #33748D; }
 
 .lobbyChatUserList {
   min-width: 15%;
   background-color: white;
   overflow-y: scroll;
   overflow-x: hidden;
-  height: 70%;
-}
+  height: 70%; }
 
-.lobbyChatUserItem{
+.lobbyChatUserItem {
   width: 100%;
-  min-height: 1.5rem;
-}
+  min-height: 1.5rem; }
+  .lobbyChatUserItem:nth-child(even) {
+    background: #538DA3; }
+  .lobbyChatUserItem:nth-child(odd) {
+    background-color: #33748D; }
 
-.lobbyChatUserItem:nth-child(even){
-  background: #6C989E;
-}
-
-.lobbyChatUserItem:nth-child(odd){
-  background-color: #447B83;
-}
-
-.lobbyChatInput{
+.lobbyChatInput {
   display: flex;
   flex-direction: row;
   background-color: yellow;
   width: 100%;
   height: 15%;
-  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.25);
-}
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.25); }
 
 #lobbyChatInputFieldID {
-  flex: 1 1;
-}
-.lobbyChatInputSubmit{
+  flex: 1 1; }
+
+.lobbyChatInputSubmit {
   max-width: 15%;
-  background-color: #0F4850;
+  background-color: #03394E;
   color: white;
   flex: 1 0;
   text-align: center;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
-}
-
-.lobbyChatInputSubmit div{
-  margin-top: 8%;
-}
-.lobbyChatInputSubmit:hover{
-  background-color: #A3C765;
-}
-.lobbyChatInputSubmit:active {
-  background-color: #6C989E;
-}
-
+  text-shadow: 2px 2px 2px black; }
+  .lobbyChatInputSubmit div {
+    margin-top: 8%; }
+  .lobbyChatInputSubmit:hover {
+    background-color: #3AAB4E; }
+  .lobbyChatInputSubmit:active {
+    background-color: #538DA3; }
 
 .observerName {
   opacity: 0;
-  animation: fadeIn 1.5s forwards;
-}
+  animation: fadeIn 1.5s forwards; }
 
 .sesIDContainer {
   position: absolute;
@@ -202,30 +162,16 @@ body{
   z-index: 2;
   background-color: black;
   color: white;
-  display: none;
-}
+  display: none; }
 
-.loginBtn {
+.loginBtn, .joinBtn {
   width: 37.5%;
   height: 20%;
   top: 1.5vh;
-  position: relative;
-}
+  position: relative; }
 
-.joinBtn {
-  width: 37.5%;
-  height: 20%;
-  top: 1.5vh;
-  position: relative;
-}
-
-#loginNameInput {
-  width: 80%;
-}
-
-#loginSesIDInput {
-  width: 80%;
-}
+#loginNameInput, #loginSesIDInput {
+  width: 80%; }
 
 .loginScreen {
   position: absolute;
@@ -236,28 +182,25 @@ body{
   background: white;
   box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.75);
   z-index: 3;
-  text-align: center;
-}
+  text-align: center; }
 
 .loginTop {
   background-color: #6C999F;
-  height: 50%;
-}
+  height: 50%; }
 
 .loginBot {
   background-color: #2D843C;
-  height: 50%;
-}
+  height: 50%; }
+
 .content1 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    background-color: #6C999F;
-    margin: 0;
-    vertical-align: top;
-}
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #6C999F;
+  margin: 0;
+  vertical-align: top; }
 
 .sessionDash {
   font-size: 22px;
@@ -268,59 +211,51 @@ body{
   height: 10vh;
   text-align: center;
   background-color: #2D843C;
-  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.75);
-}
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.75); }
 
-.dashItem{
+.dashItem {
   display: inline-block;
   user-select: none;
   float: left;
   position: relative;
   width: 24%;
-  height: 98%;
-}
+  height: 98%; }
 
 #sessionID {
-  user-select: text;
-}
+  user-select: text; }
 
-.content2{
-    text-align: center;
-    font-size: 5vw;
-    height: 20vh;
-    width: 31vw;
-    display: inline-block;
-    margin: 1vw;
-    background-color: #AC433B;
-    padding: 5vh 0em 0em 0em;
-    vertical-align: top;
-    border-radius: 1vw;
-    box-shadow: 0px 0px 20px #222;
-}
+.content2 {
+  text-align: center;
+  font-size: 5vw;
+  height: 20vh;
+  width: 31vw;
+  display: inline-block;
+  margin: 1vw;
+  background-color: #AC433B;
+  padding: 5vh 0em 0em 0em;
+  vertical-align: top;
+  border-radius: 1vw;
+  box-shadow: 0px 0px 20px #222; }
+  .content2:hover {
+    cursor: pointer; }
 
-.content2:hover{
-  cursor: pointer;
-}
-
-ul{
+ul {
   padding: 0;
-  margin: 0;
-}
+  margin: 0; }
 
-.winPopup{
-    top: 41vh;
-    font-size: 20;
-    position: absolute;
-    color: black;
-    background-color: #2D843C;
-    text-align: center;
-    z-index: 5;
-    height: 10em;
-    width: 100vw;
-    border: 2px solid black;
-}
+.winPopup {
+  top: 41vh;
+  font-size: 20;
+  position: absolute;
+  color: black;
+  background-color: #2D843C;
+  text-align: center;
+  z-index: 5;
+  height: 10em;
+  width: 100vw;
+  border: 2px solid black; }
 
-.winPopupShadow{
+.winPopupShadow {
   width: 100vw;
   height: 100vh;
   position: absolute;
@@ -329,19 +264,17 @@ ul{
   margin: 0px;
   padding: 0px;
   z-index: 4;
-  background-color: rgba(0, 0, 0, 0.5);
-}
+  background-color: rgba(0, 0, 0, 0.5); }
 
 @keyframes fadeIn {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
-}
-
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
 @keyframes rotate-btn {
   0% {
-    transform: rotate(0);
-  }
+    transform: rotate(0); }
   100% {
-    transform: rotate(360deg);
-  }
-}
+    transform: rotate(360deg); } }
+
+/*# sourceMappingURL=styles.css.map */

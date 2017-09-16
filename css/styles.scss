@@ -1,0 +1,338 @@
+@import "colorScheme";
+
+body {
+  overflow-x: hidden;
+  padding: 0px;
+  margin: 0px;
+  font-family: Roboto;
+}
+
+.lobbyContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+
+.lobbyHeader {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 10%;
+  min-height: 60px;
+  background-color: $cs-blueLight;
+}
+
+.lobbyAvatar {
+  width: 10%;
+  height: 100%;
+  flex: 0 0;
+}
+
+.lobbyAvatarImg {
+  height: 100%;
+}
+
+.lobbyPlayerName {
+  background-color: $cs-blueDarkest;
+  flex-basis: 20%;
+  text-align: center;
+}
+
+.lobbyHeaderSettings {
+  width: 10%;
+  margin-left: auto;
+  background-color: $cs-blueDarkest;
+}
+
+.lobbyHeaderSettingsIcon {
+  width: 100%;
+  height: 100%;
+  fill: $cs-blueLightest;
+  fill-opacity: 1;
+  &:hover {
+    filter: drop-shadow(3px 3px 9px #222);
+    cursor: pointer;
+    animation: rotate-btn 5s linear infinite;
+  }
+  &:active {
+    fill: $cs-grnLight;
+    filter: drop-shadow(3px 3px 5px $cs-blueLightest);
+  }
+}
+
+.lobbyPlayerName div {
+  position: relative;
+  top: 10%;
+  color: $cs-grn;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
+}
+
+.lobbyGameList {
+  width: 100%;
+  height: 50%;
+  background-color: $cs-blueDarkest;
+  overflow-y: scroll;
+}
+
+.lobbyGameListItem {
+  display: block;
+  width: 100%;
+  height: 25px;
+  color: #022F35;
+  background-color: green;
+  margin-top: 2px;
+  box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.35);
+  &:nth-child(even) {
+    background-color: $cs-blueLightest;
+  }
+  &:nth-child(odd) {
+    background-color: $cs-blueLight;
+  }
+}
+
+.lobbyChat {
+  width: 100%;
+  height: 40%;
+  background-color: $cs-red;
+}
+
+.lobbyChatHeader {
+  width: 100%;
+  height: 15%;
+  color: #6C999F;
+  background-color: $cs-blueDarkest;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.25);
+}
+
+.lobbyChatAreaUserListFlex {
+  display: flex;
+}
+
+.lobbyChatArea {
+  background-color: $cs-blueDarkest;
+  min-width: 85%;
+  height: 70%;
+  overflow-y: scroll;
+}
+
+.lobbyChatItem {
+  width: 100%;
+  min-height: 1.5rem;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  margin-bottom: 1px;
+  user-select: text;
+  flex: 1 1;
+  &:nth-child(even) {
+    background: $cs-blueLightest;
+  }
+  &:nth-child(odd) {
+    background-color: $cs-blueLight;
+  }
+}
+
+.lobbyChatUserList {
+  min-width: 15%;
+  background-color: white;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 70%;
+}
+
+.lobbyChatUserItem {
+  width: 100%;
+  min-height: 1.5rem;
+  &:nth-child(even) {
+    background: $cs-blueLightest;
+  }
+  &:nth-child(odd) {
+    background-color: $cs-blueLight;
+  }
+}
+
+.lobbyChatInput {
+  display: flex;
+  flex-direction: row;
+  background-color: yellow;
+  width: 100%;
+  height: 15%;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.25);
+}
+
+#lobbyChatInputFieldID {
+  flex: 1 1;
+}
+
+.lobbyChatInputSubmit {
+  max-width: 15%;
+  background-color: $cs-blueDarkest;
+  color: white;
+  flex: 1 0;
+  text-align: center;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+  div {
+    margin-top: 8%;
+  }
+  &:hover {
+    background-color: $cs-grnLight;
+  }
+  &:active {
+    background-color: $cs-blueLightest;
+  }
+}
+
+.observerName {
+  opacity: 0;
+  animation: fadeIn 1.5s forwards;
+}
+
+.sesIDContainer {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 2;
+  background-color: black;
+  color: white;
+  display: none;
+}
+
+.loginBtn, .joinBtn {
+  width: 37.5%;
+  height: 20%;
+  top: 1.5vh;
+  position: relative;
+}
+
+#loginNameInput, #loginSesIDInput {
+  width: 80%;
+}
+
+.loginScreen {
+  position: absolute;
+  top: 15vh;
+  left: 40%;
+  width: 20em;
+  height: 20em;
+  background: white;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.75);
+  z-index: 3;
+  text-align: center;
+}
+
+.loginTop {
+  background-color: #6C999F;
+  height: 50%;
+}
+
+.loginBot {
+  background-color: #2D843C;
+  height: 50%;
+}
+
+.content1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #6C999F;
+  margin: 0;
+  vertical-align: top;
+}
+
+.sessionDash {
+  font-size: 22px;
+  display: block;
+  left: 0px;
+  top: 0px;
+  width: 100vw;
+  height: 10vh;
+  text-align: center;
+  background-color: #2D843C;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.75);
+}
+
+.dashItem {
+  display: inline-block;
+  user-select: none;
+  float: left;
+  position: relative;
+  width: 24%;
+  height: 98%;
+}
+
+#sessionID {
+  user-select: text;
+}
+
+.content2 {
+  text-align: center;
+  font-size: 5vw;
+  height: 20vh;
+  width: 31vw;
+  display: inline-block;
+  margin: 1vw;
+  background-color: #AC433B;
+  padding: 5vh 0em 0em 0em;
+  vertical-align: top;
+  border-radius: 1vw;
+  box-shadow: 0px 0px 20px #222;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+.winPopup {
+  top: 41vh;
+  font-size: 20;
+  position: absolute;
+  color: black;
+  background-color: #2D843C;
+  text-align: center;
+  z-index: 5;
+  height: 10em;
+  width: 100vw;
+  border: 2px solid black;
+}
+
+.winPopupShadow {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin: 0px;
+  padding: 0px;
+  z-index: 4;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+
+@keyframes rotate-btn {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
