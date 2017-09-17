@@ -152,9 +152,29 @@
     }
   },
   colorScheme = {
-    red: '#AC433B',
-    green: '#2D843C',
-    blue: '#6C999F'
+    red: '#CB3024',	// Main Primary color */
+    redLightest: '#FF877D',
+    redLight: '#E0564C',
+    redDark: '#A41B11',
+    redDarkest: '#7C0900',
+
+    blue: '#1B6480',	// Main Secondary color (1) */
+    blueLightest: '#538DA3',
+    blueLight: '#33748D',
+    blueDark: '#0E4E67',
+    blueDarkest: '#03394E',
+
+    yell: '#CB7B24',	// Main Secondary color (2) */
+    yellLightest: '#FFC17D',
+    yellLight: '#E0994C',
+    yellDark: '#A45D11',
+    yellDarkest: '#7C4000',
+
+    grn: '#1C9C32',	// Main Complement color */
+    grnLightest: '#61C572',
+    grnLight: '#3AAB4E',
+    grnDark: '#0D7D20',
+    grnDarkest: '#005F10'
 };
 
   firebase.initializeApp(fbconfig);
@@ -264,5 +284,8 @@
     $('.loginBtn').on('click', session.open);
     $('.joinBtn').on('click', session.join);
     $(window).on('unload', session.leave);
+    $('.lobbyHeaderSettings').on('click', function(){
+      $('.lobbySettingsContainer').toggle();
+    });
 
 // });

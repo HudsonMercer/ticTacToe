@@ -4,6 +4,109 @@ body {
   margin: 0px;
   font-family: Roboto; }
 
+.lobbySettingsContainer {
+  top: 5%;
+  left: 25%;
+  width: 50%;
+  min-width: 485px;
+  height: 90%;
+  background-color: #CB3024;
+  position: absolute;
+  border: 1px solid black;
+  z-index: 4;
+  box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.5); }
+
+.lobbySettingsHeader {
+  width: 100%;
+  height: 5%;
+  text-align: center;
+  color: white;
+  font-size: 3vh;
+  text-shadow: 2px 2px 5px black;
+  background-color: #538DA3; }
+
+.lobbySettingsName {
+  width: 100%;
+  height: 15%;
+  background-color: #0E4E67; }
+
+#lobbySettingsName {
+  position: relative;
+  top: 30%;
+  text-align: center;
+  width: 100%;
+  height: 20%;
+  color: white;
+  font-size: 3vh;
+  text-shadow: 2px 2px 5px black; }
+
+.lobbySettingsNameSubtext {
+  color: #33748D;
+  font-size: 1.5vh;
+  text-shadow: none; }
+
+.lobbySettingsAvatar {
+  width: 100%;
+  height: 25%;
+  display: flex;
+  background-color: #1B6480; }
+
+.lobbySettingsAvatarLImg {
+  margin-left: 4px;
+  margin-top: auto;
+  height: 128px;
+  border: 1px solid black; }
+
+.lobbySettingsAvatarMImg {
+  margin-left: 4px;
+  margin-top: auto;
+  height: 64px;
+  border: 1px solid black; }
+
+.lobbySettingsAvatarSImg {
+  margin-left: 4px;
+  margin-top: auto;
+  height: 32px;
+  border: 1px solid black; }
+
+.lobbySettingsAvatarText {
+  font-size: 2vh;
+  color: white;
+  text-shadow: 2px 2px 5px black; }
+
+.lobbySettingsColorScheme {
+  width: 100%;
+  height: 55%;
+  background-color: #1C9C32;
+  display: flex; }
+
+.colorSchemeItem {
+  text-align: center; }
+
+.lobbySettingsColorSchemePri {
+  width: 25%;
+  background-color: #CB3024; }
+
+.lobbySettingsColorSchemeSec {
+  background-color: #1B6480;
+  width: 25%; }
+
+.lobbySettingsColorSchemeTet {
+  background-color: #CB7B24;
+  width: 25%; }
+
+.lobbySettingsColorSchemeQua {
+  background-color: #1C9C32;
+  width: 25%; }
+
+.lscst {
+  margin: 1vh;
+  height: 3vh;
+  min-width: 100px;
+  border-radius: 10px;
+  background-color: white;
+  flex: 1; }
+
 .lobbyContainer {
   position: absolute;
   top: 0;
@@ -42,20 +145,20 @@ body {
 .lobbyHeaderSettingsIcon {
   width: 100%;
   height: 100%;
-  fill: #538DA3;
+  fill: #83afc0;
   fill-opacity: 1; }
   .lobbyHeaderSettingsIcon:hover {
     filter: drop-shadow(3px 3px 9px #222);
     cursor: pointer;
     animation: rotate-btn 5s linear infinite; }
   .lobbyHeaderSettingsIcon:active {
-    fill: #3AAB4E;
+    fill: white;
     filter: drop-shadow(3px 3px 5px #538DA3); }
 
 .lobbyPlayerName div {
   position: relative;
   top: 10%;
-  color: #1C9C32;
+  color: white;
   text-shadow: 2px 2px 5px black; }
 
 .lobbyGameList {
@@ -185,11 +288,11 @@ body {
   text-align: center; }
 
 .loginTop {
-  background-color: #6C999F;
+  background-color: #538DA3;
   height: 50%; }
 
 .loginBot {
-  background-color: #2D843C;
+  background-color: #61C572;
   height: 50%; }
 
 .content1 {
@@ -198,7 +301,7 @@ body {
   left: 0;
   height: 100vh;
   width: 100vw;
-  background-color: #6C999F;
+  background-color: #538DA3;
   margin: 0;
   vertical-align: top; }
 
@@ -210,7 +313,7 @@ body {
   width: 100vw;
   height: 10vh;
   text-align: center;
-  background-color: #2D843C;
+  background-color: #1C9C32;
   box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.75); }
 
 .dashItem {
@@ -231,7 +334,7 @@ body {
   width: 31vw;
   display: inline-block;
   margin: 1vw;
-  background-color: #AC433B;
+  background-color: #CB3024;
   padding: 5vh 0em 0em 0em;
   vertical-align: top;
   border-radius: 1vw;
@@ -248,7 +351,7 @@ ul {
   font-size: 20;
   position: absolute;
   color: black;
-  background-color: #2D843C;
+  background-color: #1C9C32;
   text-align: center;
   z-index: 5;
   height: 10em;

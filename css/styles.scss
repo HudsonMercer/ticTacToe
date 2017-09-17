@@ -7,6 +7,129 @@ body {
   font-family: Roboto;
 }
 
+.lobbySettingsContainer {
+  top: 5%;
+  left: 25%;
+  width: 50%;
+  min-width: 485px;
+  height: 90%;
+  background-color: $cs-red;
+  position: absolute;
+  border: 1px solid black;
+  z-index: 4;
+  box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.5);
+}
+
+.lobbySettingsHeader {
+  width: 100%;
+  height: 5%;
+  text-align: center;
+  color: white;
+  font-size: 3vh;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
+  background-color: $cs-blueLightest;
+}
+
+.lobbySettingsName {
+  width: 100%;
+  height: 15%;
+  background-color: $cs-blueDark;
+  // padding-top: 10%;
+}
+
+#lobbySettingsName {
+  position: relative;
+  top: 30%;
+  text-align: center;
+  width: 100%;
+  height: 20%;
+  color: white;
+  font-size: 3vh;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
+}
+
+.lobbySettingsNameSubtext {
+  color: $cs-blueLight;
+  font-size: 1.5vh;
+  text-shadow: none;
+}
+
+.lobbySettingsAvatar {
+  width: 100%;
+  height: 25%;
+  display: flex;
+  background-color: $cs-blue;
+}
+.lobbySettingsAvatarLImg{
+  margin-left: 4px;
+  margin-top: auto;
+  height: 128px;
+  border: 1px solid black;
+}
+.lobbySettingsAvatarMImg{
+  margin-left: 4px;
+  margin-top: auto;
+  height: 64px;
+  border: 1px solid black;
+}
+.lobbySettingsAvatarSImg{
+  margin-left: 4px;
+  margin-top: auto;
+  height: 32px;
+  border: 1px solid black;
+}
+
+.lobbySettingsAvatarText {
+  font-size: 2vh;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
+  // background-color: $cs-red;
+}
+
+.lobbySettingsColorScheme {
+  width: 100%;
+  height: 55%;
+  background-color: $cs-grn;
+  display: flex;
+}
+
+.colorSchemeItem{
+  text-align: center;
+}
+
+.lobbySettingsColorSchemePri{
+  width: 25%;
+  background-color: $cs-red;
+
+}
+
+.lobbySettingsColorSchemeSec{
+  background-color: $cs-blue;
+  width: 25%;
+
+}
+
+.lobbySettingsColorSchemeTet{
+  background-color: $cs-yell;
+  width: 25%;
+
+}
+
+.lobbySettingsColorSchemeQua{
+ background-color: $cs-grn;
+ width: 25%;
+}
+
+.lscst {
+  margin: 1vh;
+  height: 3vh;
+    min-width: 100px;
+  border-radius: 10px;
+  background-color: white;
+  flex: 1;
+
+}
+
 .lobbyContainer {
   position: absolute;
   top: 0;
@@ -51,7 +174,7 @@ body {
 .lobbyHeaderSettingsIcon {
   width: 100%;
   height: 100%;
-  fill: $cs-blueLightest;
+  fill: lighten($cs-blueLightest, 15%);
   fill-opacity: 1;
   &:hover {
     filter: drop-shadow(3px 3px 9px #222);
@@ -59,7 +182,7 @@ body {
     animation: rotate-btn 5s linear infinite;
   }
   &:active {
-    fill: $cs-grnLight;
+    fill: white;
     filter: drop-shadow(3px 3px 5px $cs-blueLightest);
   }
 }
@@ -67,7 +190,7 @@ body {
 .lobbyPlayerName div {
   position: relative;
   top: 10%;
-  color: $cs-grn;
+  color: white;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
 }
 
@@ -224,12 +347,12 @@ body {
 }
 
 .loginTop {
-  background-color: #6C999F;
+  background-color: $cs-blueLightest;
   height: 50%;
 }
 
 .loginBot {
-  background-color: #2D843C;
+  background-color: $cs-grnLightest;
   height: 50%;
 }
 
@@ -239,7 +362,7 @@ body {
   left: 0;
   height: 100vh;
   width: 100vw;
-  background-color: #6C999F;
+  background-color: $cs-blueLightest;
   margin: 0;
   vertical-align: top;
 }
@@ -252,7 +375,7 @@ body {
   width: 100vw;
   height: 10vh;
   text-align: center;
-  background-color: #2D843C;
+  background-color: $cs-grn;
   box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.75);
 }
 
@@ -276,7 +399,7 @@ body {
   width: 31vw;
   display: inline-block;
   margin: 1vw;
-  background-color: #AC433B;
+  background-color: $cs-red;
   padding: 5vh 0em 0em 0em;
   vertical-align: top;
   border-radius: 1vw;
@@ -296,7 +419,7 @@ ul {
   font-size: 20;
   position: absolute;
   color: black;
-  background-color: #2D843C;
+  background-color: $cs-grn;
   text-align: center;
   z-index: 5;
   height: 10em;
