@@ -11,6 +11,7 @@ body {
   min-width: 485px;
   height: 90%;
   background-color: #CB3024;
+  display: none;
   position: absolute;
   border: 1px solid black;
   z-index: 4;
@@ -39,6 +40,13 @@ body {
   color: white;
   font-size: 3vh;
   text-shadow: 2px 2px 5px black; }
+
+#lobbySettingsNameFieldID {
+  position: relative;
+  top: 30%;
+  text-align: center;
+  width: 100%;
+  height: 20%; }
 
 .lobbySettingsNameSubtext {
   color: #33748D;
@@ -72,12 +80,26 @@ body {
 .lobbySettingsAvatarText {
   font-size: 2vh;
   color: white;
+  text-align: center;
   text-shadow: 2px 2px 5px black; }
 
 .lobbySettingsColorScheme {
   width: 100%;
   height: 55%;
-  background-color: #1C9C32;
+  background-color: #0E4E67; }
+
+.lobbySettingsColorSchemeText {
+  width: 100%;
+  height: 12%;
+  text-align: center;
+  font-size: 2vh;
+  color: white;
+  text-shadow: 2px 2px 5px black;
+  display: block; }
+
+.lobbySettingsColorSchemeContainer {
+  width: 100%;
+  height: 88%;
   display: flex; }
 
 .colorSchemeItem {
@@ -85,18 +107,18 @@ body {
 
 .lobbySettingsColorSchemePri {
   width: 25%;
-  background-color: #CB3024; }
+  background-color: #e2645a; }
 
 .lobbySettingsColorSchemeSec {
-  background-color: #1B6480;
+  background-color: #2895bf;
   width: 25%; }
 
 .lobbySettingsColorSchemeTet {
-  background-color: #CB7B24;
+  background-color: #e2a15a;
   width: 25%; }
 
 .lobbySettingsColorSchemeQua {
-  background-color: #1C9C32;
+  background-color: #2bd949;
   width: 25%; }
 
 .lscst {
@@ -216,14 +238,15 @@ body {
 
 .lobbyChatUserList {
   min-width: 15%;
-  background-color: white;
+  background-color: #03394E;
   overflow-y: scroll;
   overflow-x: hidden;
   height: 70%; }
 
 .lobbyChatUserItem {
   width: 100%;
-  min-height: 1.5rem; }
+  min-height: 1.5rem;
+  margin-top: 1px; }
   .lobbyChatUserItem:nth-child(even) {
     background: #538DA3; }
   .lobbyChatUserItem:nth-child(odd) {
@@ -362,6 +385,7 @@ ul {
   width: 100vw;
   height: 100vh;
   position: absolute;
+  display: none;
   top: 0px;
   left: 0px;
   margin: 0px;

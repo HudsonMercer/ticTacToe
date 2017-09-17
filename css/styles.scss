@@ -14,6 +14,7 @@ body {
   min-width: 485px;
   height: 90%;
   background-color: $cs-red;
+  display: none;
   position: absolute;
   border: 1px solid black;
   z-index: 4;
@@ -46,6 +47,13 @@ body {
   color: white;
   font-size: 3vh;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
+}
+#lobbySettingsNameFieldID {
+  position: relative;
+  top: 30%;
+  text-align: center;
+  width: 100%;
+  height: 20%;
 }
 
 .lobbySettingsNameSubtext {
@@ -82,6 +90,7 @@ body {
 .lobbySettingsAvatarText {
   font-size: 2vh;
   color: white;
+  text-align: center;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
   // background-color: $cs-red;
 }
@@ -89,7 +98,22 @@ body {
 .lobbySettingsColorScheme {
   width: 100%;
   height: 55%;
-  background-color: $cs-grn;
+  background-color: $cs-blueDark;
+}
+
+.lobbySettingsColorSchemeText {
+  width: 100%;
+  height: 12%;
+  text-align: center;
+  font-size: 2vh;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
+  display: block;
+}
+
+.lobbySettingsColorSchemeContainer {
+  width: 100%;
+  height: 88%;
   display: flex;
 }
 
@@ -99,24 +123,24 @@ body {
 
 .lobbySettingsColorSchemePri{
   width: 25%;
-  background-color: $cs-red;
+  background-color: lighten($cs-red, 15%);
 
 }
 
 .lobbySettingsColorSchemeSec{
-  background-color: $cs-blue;
+  background-color: lighten($cs-blue, 15%);
   width: 25%;
 
 }
 
 .lobbySettingsColorSchemeTet{
-  background-color: $cs-yell;
+  background-color: lighten($cs-yell, 15%);
   width: 25%;
 
 }
 
 .lobbySettingsColorSchemeQua{
- background-color: $cs-grn;
+ background-color: lighten($cs-grn, 15%);
  width: 25%;
 }
 
@@ -260,7 +284,7 @@ body {
 
 .lobbyChatUserList {
   min-width: 15%;
-  background-color: white;
+  background-color: $cs-blueDarkest;
   overflow-y: scroll;
   overflow-x: hidden;
   height: 70%;
@@ -269,6 +293,7 @@ body {
 .lobbyChatUserItem {
   width: 100%;
   min-height: 1.5rem;
+  margin-top: 1px;
   &:nth-child(even) {
     background: $cs-blueLightest;
   }
@@ -431,6 +456,7 @@ ul {
   width: 100vw;
   height: 100vh;
   position: absolute;
+  display: none;
   top: 0px;
   left: 0px;
   margin: 0px;

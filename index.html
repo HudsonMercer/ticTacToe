@@ -25,33 +25,36 @@
       <div class="lobbySettingsAvatarText">Images must be 256x256 or smaller.<br/><br/>Click the avatar to upload from a file or URL.</div>
     </div>
     <div class="lobbySettingsColorScheme">
-      <div class="lobbySettingsColorSchemePri colorSchemeItem">
-        <div class="lscst">$cs-redDarkest</div>
-        <div class="lscst">$cs-redDark</div>
-        <div class="lscst">$cs-red</div>
-        <div class="lscst">$cs-redLight</div>
-        <div class="lscst">$cs-redLightest</div>
-      </div>
-      <div class="lobbySettingsColorSchemeSec colorSchemeItem">
-        <div class="lscst">$cs-blueDarkest</div>
-        <div class="lscst">$cs-blueDark</div>
-        <div class="lscst">$cs-blue</div>
-        <div class="lscst">$cs-blueLight</div>
-        <div class="lscst">$cs-blueLightest</div>
-      </div>
-      <div class="lobbySettingsColorSchemeTet colorSchemeItem">
-        <div class="lscst">$cs-yellDarkest</div>
-        <div class="lscst">$cs-yellDark</div>
-        <div class="lscst">$cs-yell</div>
-        <div class="lscst">$cs-yellLight</div>
-        <div class="lscst">$cs-yellLightest</div>
-      </div>
-      <div class="lobbySettingsColorSchemeQua colorSchemeItem">
-        <div class="lscst">$cs-grnDarkest</div>
-        <div class="lscst">$cs-grnDark</div>
-        <div class="lscst">$cs-grn</div>
-        <div class="lscst">$cs-grnLight</div>
-        <div class="lscst">$cs-grnLightest</div>
+      <div class="lobbySettingsColorSchemeText">Click a bubble to alter the color Scheme.</div>
+      <div class="lobbySettingsColorSchemeContainer">
+        <div class="lobbySettingsColorSchemePri colorSchemeItem">
+          <div class="lscst">$cs-redDarkest</div>
+          <div class="lscst">$cs-redDark</div>
+          <div class="lscst">$cs-red</div>
+          <div class="lscst">$cs-redLight</div>
+          <div class="lscst">$cs-redLightest</div>
+        </div>
+        <div class="lobbySettingsColorSchemeSec colorSchemeItem">
+          <div class="lscst">$cs-blueDarkest</div>
+          <div class="lscst">$cs-blueDark</div>
+          <div class="lscst">$cs-blue</div>
+          <div class="lscst">$cs-blueLight</div>
+          <div class="lscst">$cs-blueLightest</div>
+        </div>
+        <div class="lobbySettingsColorSchemeTet colorSchemeItem">
+          <div class="lscst">$cs-yellDarkest</div>
+          <div class="lscst">$cs-yellDark</div>
+          <div class="lscst">$cs-yell</div>
+          <div class="lscst">$cs-yellLight</div>
+          <div class="lscst">$cs-yellLightest</div>
+        </div>
+        <div class="lobbySettingsColorSchemeQua colorSchemeItem">
+          <div class="lscst">$cs-grnDarkest</div>
+          <div class="lscst">$cs-grnDark</div>
+          <div class="lscst">$cs-grn</div>
+          <div class="lscst">$cs-grnLight</div>
+          <div class="lscst">$cs-grnLightest</div>
+        </div>
       </div>
   </div>
   </div>
@@ -59,7 +62,7 @@
   <div class="lobbyContainer">
     <div class="lobbyHeader">
       <div class="lobbyAvatar"><img src="res/avatar.png" alt="" class="lobbyAvatarImg"></div>
-      <div class="lobbyPlayerName"><div><h1>Hello, Scrubbles!</h1></div></div>
+      <div class="lobbyPlayerName"><div><h1 id="lobbyHeaderNameID">Tic Tac Toe!</h1></div></div>
       <div class="lobbyHeaderSettings">
         <svg class="lobbyHeaderSettingsIcon" fill="#000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
           <path d="M0 0h24v24H0z" fill="none"/>
@@ -74,29 +77,9 @@
       <div class="lobbyGameListItem">Some game Name: LLVM</div>
     </div>
     <div class="lobbyChat">
-      <div class="lobbyChatHeader">MAYBE THIS IS JUST GOING TO BE A SPACER?</div>
+      <div class="lobbyChatHeader"></div>
       <div class="lobbyChatAreaUserListFlex">
         <div class="lobbyChatArea">
-          <div class="lobbyChatItem">Chat placeholder</br>Chat placeholder</br>Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
-          <div class="lobbyChatItem">Chat placeholder</div>
         </div>
         <div class="lobbyChatUserList">
           <div class="lobbyChatUserItem">Dude 33</div>
@@ -157,6 +140,7 @@
       </div>
     </div>
   </div>
+
   <div class="loginScreen">
     <div class="loginTop">
       <span>CHOOSE NAME</span>

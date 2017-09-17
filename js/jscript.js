@@ -2,9 +2,7 @@
 
 // $(document).ready(function(){
     //"Global" Vars
-    var lobby = {
-      a: 'some thing in here'
-    },
+    var
     fbconfig = {
       apiKey: "AIzaSyCWcbz2SwfHQDkVq9qu0_UmJT9giOVNVrM",
       authDomain: "tictactoe-b8474.firebaseapp.com",
@@ -14,6 +12,33 @@
       messagingSenderId: "1097292712686"
     },
     session = {
+      lobby: {
+        a: 'someitem',
+        chat: {
+          area: $('.lobbyChatArea'),
+          start: function(){
+            var areaShort = session.lobby.chat.area;
+            session.lobby.firebaseRef.child('chat').child('items').once('value').then(function(snap){
+              snap.forEach(function(chatItem){
+                areaShort.append('<div class="lobbyChatItem">' + chatItem.val() + '</div>');
+                areaShort.scrollTop(areaShort[0].scrollHeight); //scroll to the bottom of chat.
+              })
+            });
+          },
+          watch: function(){
+            var areaShort = session.lobby.chat.area;
+            session.lobby.firebaseRef.child('chat').child('items').on('child_added', function(snap){
+              areaShort.append('<div class="lobbyChatItem">'+ snap.val() +'</div>');
+              areaShort.scrollTop(areaShort[0].scrollHeight); //scroll to the bottom of chat.
+            });
+          },
+          submit: function(message){
+            var areaShort = session.lobby.chat.area;
+            session.lobby.firebaseRef.child('chat').child('items').child(Math.random().toString(36).substring(7)).set(session.userName +': '+ message);
+            $('#lobbyChatInputFieldID').val('');
+          }
+        }
+      },
     userName: 'default',
     tttArray: $('content2'),
     host: undefined,
@@ -178,8 +203,9 @@
 };
 
   firebase.initializeApp(fbconfig);
+  session.lobby.firebaseRef = firebase.database().ref('/lobby/');
+  session.lobby.chat.watch();
   $('.winPopup').hide();
-  $('.winPopupShadow').hide();
   $('.loginScreen').hide();
   $('.sesID').text(session.ID + ' ');
 
@@ -278,14 +304,37 @@
     }
 
     $('.content2').click(makePlay);
-
     $('.winPopup').click(closeWinBanner);
-
     $('.loginBtn').on('click', session.open);
     $('.joinBtn').on('click', session.join);
     $(window).on('unload', session.leave);
     $('.lobbyHeaderSettings').on('click', function(){
       $('.lobbySettingsContainer').toggle();
+    });
+    $('.lobbyChatInputSubmit').click(function(){
+      session.lobby.chat.submit($('#lobbyChatInputFieldID').val());
+    });
+    $('#lobbyChatInputFieldID').keyup(function(e){
+      if(e.keyCode === 13){
+        $('.lobbyChatInputSubmit').trigger('click');
+      }
+    });
+    $('.lobbySettingsName').click(function(){
+      var parent = $('#lobbySettingsName').replaceWith('<input style="position: relative;top: 4vh;" id="lobbySettingsNameFieldID" type="text" name="lobbySettingsNameField" value="'+session.userName+'" placeholder="Type a new name here!"></input>'),
+      child = $('#lobbySettingsNameFieldID').keyup(function(e){
+        if(e.keyCode === 13){
+          session.userName = child.val();
+          $('#lobbySettingsNameFieldID').replaceWith('<div id="lobbySettingsName">Current Name: ' + session.userName + '</br><span class="lobbySettingsNameSubtext">(click to edit)</span></div>');
+          $('#lobbyHeaderNameID').text('Hello, ' + session.userName + '!');
+        }
+      });
+    });
+
+    $('#lobbySettingsNameFieldID').keyup(function(e){
+      if(e.keyCode === 13){
+        session.userName = this.val();
+        $('#lobbySettingsNameFieldID').replaceWith('<div id="lobbySettingsName">Current Name: ' + session.userName + '</br><span class="lobbySettingsNameSubtext">(click to edit)</span></div>');
+      }
     });
 
 // });
