@@ -67,6 +67,8 @@ body {
   height: 25%;
   display: flex;
   background-color: $cs-blue;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 .lobbySettingsAvatarLImg{
   margin-left: 4px;
@@ -239,6 +241,21 @@ body {
   &:nth-child(odd) {
     background-color: $cs-blueLight;
   }
+}
+
+.lobbyGameListIcon {
+  background-color: $cs-grn;
+  display: inline-block;
+  height: 100%;
+  width: 1.5rem;
+  margin-left: 0.5rem;
+  border-radius: 1.5rem;
+}
+
+.lobbyGameListText {
+  position: relative;
+  top: -25%;
+  left: 1%;
 }
 
 .lobbyChat {

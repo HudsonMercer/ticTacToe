@@ -1,4 +1,4 @@
-//V2.0 RC Internet Multiplayer, Firebase integration, Jquery DOM manipulation
+//V2.1 RC Internet Multiplayer, Firebase integration, Jquery DOM manipulation
 
 // $(document).ready(function(){
     //"Global" Vars
@@ -13,9 +13,59 @@
     },
     session = {
       lobby: {
-        a: 'someitem',
+        listGames: function(){
+          var divChild = undefined;
+          //add to lobby list
+          session.lobby.gamesRef.on('child_added', function(snap){
+            divChild = $(`<div class="lobbyGameListItem"><div class="lobbyGameListIcon ${snap.key}"></div><span class="lobbyGameListText ${snap.key}">${snap.child('gameName/').val()}: ${snap.child('hostName/').val()}</span></div>`);
+            $('.lobbyGameList').append(divChild);
+            divChild.addClass(snap.key);
+            switch(snap.child('gameState/').val()){
+              case 'unhosted':
+                $('.lobbyGameListIcon.'+snap.key).css('background-color', colorScheme.yell);
+                break;
+              case 'hosted':
+                $('.lobbyGameListIcon.'+snap.key).css('background-color', colorScheme.grn);
+                break;
+              case 'empty':
+                $('.lobbyGameListIcon.'+snap.key).css('background-color', colorScheme.grn);
+                break;
+              case 'full':
+                $('.lobbyGameListIcon.'+snap.key).css('background-color', colorScheme.red);
+                break;
+              default:
+              break;
+            }
+          });
+
+          //remove from lobby list
+          session.lobby.gamesRef.on('child_removed', function(snap){
+            $('.' + snap.key).remove();
+          });
+
+          //change color depending on what the game state is
+          session.lobby.gamesRef.on('child_changed', function(snap){
+            switch(snap.child('gameState/').val()){
+              case 'unhosted':
+                $('.lobbyGameListIcon.'+snap.key).css('background-color', colorScheme.yell);
+                break;
+              case 'hosted':
+                $('.lobbyGameListIcon.'+snap.key).css('background-color', colorScheme.grn);
+                break;
+              case 'empty':
+                $('.lobbyGameListIcon.'+snap.key).css('background-color', colorScheme.grn);
+                break;
+              case 'full':
+                $('.lobbyGameListIcon.'+snap.key).css('background-color', colorScheme.red);
+                break;
+              default:
+              break;
+            }
+          });
+        },
         chat: {
           area: $('.lobbyChatArea'),
+          userListArea: $('.lobbyChatUserList'),
           start: function(){
             var areaShort = session.lobby.chat.area;
             session.lobby.firebaseRef.child('chat').child('items').once('value').then(function(snap){
@@ -36,6 +86,14 @@
             var areaShort = session.lobby.chat.area;
             session.lobby.firebaseRef.child('chat').child('items').child(Math.random().toString(36).substring(7)).set(session.userName +': '+ message);
             $('#lobbyChatInputFieldID').val('');
+          },
+          userWatch: function() {
+            session.lobby.firebaseRef.child('chat').child('users').on('child_added', function(snap){
+              session.lobby.chat.userListArea.append('<div class="lobbyChatUserItem">'+snap.val()+'</div>');
+            });
+            session.lobby.firebaseRef.child('chat').child('users').on('child_removed', function(snap){
+              $('.lobbyChatUserItem:contains('+snap.val()+')').remove();
+            });
           }
         }
       },
@@ -45,6 +103,7 @@
     lastPlayer: 'O',
     playerState: undefined,
     firebaseRef: undefined,
+    gameName: 'Unset',
     curDate: Date().toString(),
     ID: Math.random().toString(36).substring(7),
     open: function(){
@@ -56,6 +115,7 @@
       session.firebaseRef.child('gameState').once('value').then(function(snap){
         if(snap.val() === null || snap.val() === 'unhosted'){
           session.firebaseRef.child('hostName').set(session.userName);
+          session.firebaseRef.child('gameName').set(session.gameName);
           session.firebaseRef.child('createdOn').set(session.curDate);
           session.firebaseRef.child('lastPlayer').set(session.lastPlayer);
           session.firebaseRef.child('clientName').set('No Player');
@@ -204,7 +264,10 @@
 
   firebase.initializeApp(fbconfig);
   session.lobby.firebaseRef = firebase.database().ref('/lobby/');
+  session.lobby.gamesRef = firebase.database().ref('/sessions/');
+  session.lobby.listGames();
   session.lobby.chat.watch();
+  session.lobby.chat.userWatch();
   $('.winPopup').hide();
   $('.loginScreen').hide();
   $('.sesID').text(session.ID + ' ');
@@ -320,21 +383,24 @@
       }
     });
     $('.lobbySettingsName').click(function(){
+      //Abandon all hope ye who code here
       var parent = $('#lobbySettingsName').replaceWith('<input style="position: relative;top: 4vh;" id="lobbySettingsNameFieldID" type="text" name="lobbySettingsNameField" value="'+session.userName+'" placeholder="Type a new name here!"></input>'),
       child = $('#lobbySettingsNameFieldID').keyup(function(e){
         if(e.keyCode === 13){
-          session.userName = child.val();
-          $('#lobbySettingsNameFieldID').replaceWith('<div id="lobbySettingsName">Current Name: ' + session.userName + '</br><span class="lobbySettingsNameSubtext">(click to edit)</span></div>');
-          $('#lobbyHeaderNameID').text('Hello, ' + session.userName + '!');
+
+          session.lobby.firebaseRef.child('chat').child('users').once('value', function(snap){
+            snap.forEach(function(child){
+              if(child.val() === session.userName){
+                session.lobby.firebaseRef.child('chat').child('users').child(session.userName).set(null);
+              }
+            });
+            session.userName = child.val();
+            session.lobby.firebaseRef.child('chat').child('users').child(session.userName).set(session.userName);
+            $('#lobbySettingsNameFieldID').replaceWith('<div id="lobbySettingsName">Current Name: ' + session.userName + '</br><span class="lobbySettingsNameSubtext">(click to edit)</span></div>');
+            $('#lobbyHeaderNameID').text('Hello, ' + session.userName + '!');
+          });
         }
       });
-    });
-
-    $('#lobbySettingsNameFieldID').keyup(function(e){
-      if(e.keyCode === 13){
-        session.userName = this.val();
-        $('#lobbySettingsNameFieldID').replaceWith('<div id="lobbySettingsName">Current Name: ' + session.userName + '</br><span class="lobbySettingsNameSubtext">(click to edit)</span></div>');
-      }
     });
 
 // });
