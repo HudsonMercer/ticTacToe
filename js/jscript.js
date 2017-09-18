@@ -13,7 +13,7 @@
     },
     session = {
       lobby: {
-        listGames: function(){
+        listWatch: function(){
           var divChild = undefined;
           //add to lobby list
           session.lobby.gamesRef.on('child_added', function(snap){
@@ -108,7 +108,7 @@
     ID: Math.random().toString(36).substring(7),
     open: function(){
       session.host = true;
-      session.userName = $('#loginNameInput').val() || session.userName;
+      session.gameName = $('#gameNameInputID').val();
       session.ID = $('#loginSesIDInput').val() || session.ID;
       session.playerState = 'host';
       session.firebaseRef = firebase.database().ref('/sessions/' + session.ID);
@@ -124,7 +124,7 @@
           session.firebaseRef.child('gameState').set('hosted');
           session.firebaseRef.child('closeWinBanner').set('0');
           $('#sessionIDContainer').html('Session ID: <span id="sessionID">' + session.ID + ' </span>');
-          $('.loginScreen').hide();
+          $('.hostMenu').hide();
           $('.hostName').text(session.userName);
           $('.clientName').text('No Player');
           session.startPlayerList();
@@ -137,7 +137,6 @@
     },
     join: function(){
       session.host = false;
-      session.userName = $('#loginNameInput').val() || session.userName;
       session.ID = $('#loginSesIDInput').val() || session.ID;
       session.firebaseRef = firebase.database().ref('/sessions/' + session.ID);
       session.firebaseRef.once('value').then(function(snap){
@@ -148,7 +147,7 @@
           session.firebaseRef.child('gameState').set('full');
           session.firebaseRef.child('clientName').set(session.userName);
           $('#sessionIDContainer').html('Session ID: <span id="sessionID">' + session.ID + '</span>');
-          $('.loginScreen').hide();
+          $('.hostMenu').hide();
           session.playerState = 'O';
         } else if(snap.val() !== null && snap.val().gameState === 'full'){
           session.boardPull();
@@ -156,7 +155,7 @@
           session.startBoardWatcher();
           session.playerState = 'observer';
           session.firebaseRef.child('observers').child(session.userName).set(session.userName);
-          $('.loginScreen').hide();
+          $('.hostMenu').hide();
         } else if(snap.val() !== null && snap.val().gameState === 'unhosted'){
           if (confirm('Game unhosted! Would you like to host it?')){
             session.open();
@@ -265,11 +264,11 @@
   firebase.initializeApp(fbconfig);
   session.lobby.firebaseRef = firebase.database().ref('/lobby/');
   session.lobby.gamesRef = firebase.database().ref('/sessions/');
-  session.lobby.listGames();
+  session.lobby.listWatch();
   session.lobby.chat.watch();
   session.lobby.chat.userWatch();
   $('.winPopup').hide();
-  $('.loginScreen').hide();
+  $('.hostMenu').hide();
   $('.sesID').text(session.ID + ' ');
 
     function closeWinBanner(overrideHost){
@@ -368,7 +367,7 @@
 
     $('.content2').click(makePlay);
     $('.winPopup').click(closeWinBanner);
-    $('.loginBtn').on('click', session.open);
+    $('.launchBtn').on('click', session.open);
     $('.joinBtn').on('click', session.join);
     $(window).on('unload', session.leave);
     $('.lobbyHeaderSettings').on('click', function(){
@@ -402,5 +401,9 @@
         }
       });
     });
+    $('.lobbyChatHost').click(function(){
+      $('.hostMenu').toggle();
+    });
+    // $('.lobbyChatHeaderJoin')
 
 // });

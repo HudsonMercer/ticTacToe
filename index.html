@@ -73,7 +73,10 @@
     <div class="lobbyGameList">
     </div>
     <div class="lobbyChat">
-      <div class="lobbyChatHeader"></div>
+      <div class="lobbyChatHeader">
+        <div class="lobbyChatHost lobbyChatHeaderItem"><span>Host</span></div>
+        <div class="lobbyChatJoin lobbyChatHeaderItem"><span>Join</span></div>
+      </div>
       <div class="lobbyChatAreaUserListFlex">
         <div class="lobbyChatArea">
         </div>
@@ -90,17 +93,17 @@
     </div>
   </div>
 
-  <div class="loginScreen">
-    <div class="loginTop">
-      <span>CHOOSE NAME</span>
-      <input type="text" name="userNameTxtbx" value="" placeholder="Your Name Here" id="loginNameInput">
+  <div class="hostMenu">
+    <div class="hostMenuTop">
+      <span>Game Name: </span></br>
+      <input type="text" name="gameNameInput" value="" placeholder="Enter a game name." id="gameNameInputID">
     </div>
-    <div class="loginBot">
+    <div class="hostMenuBot">
       <span>Input existing session ID or host a new session.<br/><br/>Generated ID: <span class="sesID"></span></span>
       <input type="text" name="sesIDTxtbx" value="" id="loginSesIDInput"><br/>
       <div class="hostJoinContainer">
-        <button type="button" name="loginBtn" class="loginBtn">Host</button>
-        <button type="button" name="joinBtn" class="joinBtn">Join</button>
+        <button type="button" name="launchBtn" class="launchBtn">Launch</button>
+        <!-- <button type="button" name="joinBtn" class="joinBtn">Join</button> -->
       </div>
     </div>
   </div>
