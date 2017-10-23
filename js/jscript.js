@@ -215,6 +215,9 @@
             $('.lobbyContainer').toggle();
             $('.winPopup').toggle();
             $('.winPopupShadow').toggle();
+            session.stopListening();
+            session.ID = Math.random().toString(36).substring(7);
+            session.lastPlayer = 'O';
           }, 3000);
 
         }
@@ -413,24 +416,32 @@ $('#lobbyChatInputFieldID').keyup(function(e){
 });
 $('.lobbySettingsName').click(function(){
   //Abandon all hope ye who code here
-  var parent = $('#lobbySettingsName').replaceWith('<input style="position: relative;top: 4vh;" id="lobbySettingsNameFieldID" type="text" name="lobbySettingsNameField" value="'+session.userName+'" placeholder="Type a new name here!"></input>'),
+  event.stopPropagation();
+  var nameInUse = false,
+  parent = $('#lobbySettingsName').replaceWith('<input style="position: relative;top: 4vh;" id="lobbySettingsNameFieldID" type="text" name="lobbySettingsNameField" value="'+session.userName+'" placeholder="Type a new name here!"></input>'),
   child = $('#lobbySettingsNameFieldID').keyup(function(e){
+    event.stopPropagation();
     if(e.keyCode === 13){
-      $('.lobbySettingsContainer').hide();
       session.lobby.firebaseRef.child('chat').child('users').once('value', function(snap){
-        snap.forEach(function(child){
-          if(child.val() === session.userName){
+        snap.forEach(function(snapChild){
+          if(snapChild.val() === session.userName){
+            $('.lobbySettingsContainer').hide();
             session.lobby.firebaseRef.child('chat').child('users').child(session.userName).set(null);
+          } else if (child.val() === snapChild.val()){
+            //alert('Name already in use!');
+            nameInUse = true;
           }
         });
-        session.userName = child.val().replace(/[^a-z ]/ig, '');
-        session.lobby.firebaseRef.child('chat').child('users').child(session.userName).set(session.userName);
-        $('#lobbySettingsNameFieldID').replaceWith('<div id="lobbySettingsName">Current Name: ' + session.userName + '</br><span class="lobbySettingsNameSubtext">(click to edit)</span></div>');
-        $('#lobbyHeaderNameID').text('Hello, ' + session.userName + '!');
+        console.log(nameInUse);
+        if(nameInUse === false){
+          session.userName = child.val().replace(/[^a-z ]/ig, '');
+          session.lobby.firebaseRef.child('chat').child('users').child(session.userName).set(session.userName);
+          $('#lobbySettingsNameFieldID').replaceWith('<div id="lobbySettingsName">Current Name: ' + session.userName + '</br><span class="lobbySettingsNameSubtext">(click to edit)</span></div>');
+          $('#lobbyHeaderNameID').text('Hello, ' + session.userName + '!');
+        }
       });
     }
   });
-
 });
 $('.lobbyChatHost').click(function(){
   if(session.userName === 'default'){
