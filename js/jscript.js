@@ -19,23 +19,8 @@
           session.lobby.gamesRef.on('child_added', function(snap){
             divChild = $(`<div class="lobbyGameListItem"><div class="lobbyGameListIcon ${snap.key}"></div><span class="lobbyGameListText ${snap.key}">${snap.child('gameName/').val()}: ${snap.child('hostName/').val()}</span></div>`);
             $('.lobbyGameList').append(divChild);
+            $('.lobbyGameListItem').on('click', session.join);
             divChild.addClass(snap.key);
-            switch(snap.child('gameState/').val()){
-              case 'unhosted':
-                $('.lobbyGameListIcon.'+snap.key).css('background-color', colorScheme.yell);
-                break;
-              case 'hosted':
-                $('.lobbyGameListIcon.'+snap.key).css('background-color', colorScheme.grn);
-                break;
-              case 'empty':
-                $('.lobbyGameListIcon.'+snap.key).css('background-color', colorScheme.grn);
-                break;
-              case 'full':
-                $('.lobbyGameListIcon.'+snap.key).css('background-color', colorScheme.red);
-                break;
-              default:
-              break;
-            }
           });
 
           //remove from lobby list
@@ -45,22 +30,29 @@
 
           //change color depending on what the game state is
           session.lobby.gamesRef.on('child_changed', function(snap){
+
+            var jqueryTar = $(`.lobbyGameListItem.${snap.key}`);
+
+            jqueryTar.html(`<div class="lobbyGameListIcon ${snap.key}"></div><span class="lobbyGameListText ${snap.key}">${snap.child('gameName/').val()}: ${snap.child('hostName/').val()}</span>`);
+
             switch(snap.child('gameState/').val()){
               case 'unhosted':
-                $('.lobbyGameListIcon.'+snap.key).css('background-color', colorScheme.yell);
+                jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.yell);
                 break;
               case 'hosted':
-                $('.lobbyGameListIcon.'+snap.key).css('background-color', colorScheme.grn);
+                jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.grn);
                 break;
               case 'empty':
-                $('.lobbyGameListIcon.'+snap.key).css('background-color', colorScheme.grn);
+                jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.grn);
                 break;
               case 'full':
-                $('.lobbyGameListIcon.'+snap.key).css('background-color', colorScheme.red);
+                jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.red);
                 break;
               default:
               break;
             }
+
+
           });
         },
         chat: {
@@ -89,7 +81,11 @@
           },
           userWatch: function() {
             session.lobby.firebaseRef.child('chat').child('users').on('child_added', function(snap){
-              session.lobby.chat.userListArea.append('<div class="lobbyChatUserItem">'+snap.val()+'</div>');
+              var chatItemDiv = $('<div class="lobbyChatUserItem">'+snap.val()+'</div>'),
+               child = chatItemDiv.appendTo(session.lobby.chat.userListArea);
+              if(child.text() === session.userName){
+                child.css('background-color', colorScheme.grn);
+              }
             });
             session.lobby.firebaseRef.child('chat').child('users').on('child_removed', function(snap){
               $('.lobbyChatUserItem:contains('+snap.val()+')').remove();
@@ -107,6 +103,8 @@
     curDate: Date().toString(),
     ID: Math.random().toString(36).substring(7),
     open: function(){
+      $('.hostMenu').toggle();
+      $('.lobbyContainer').toggle();
       session.host = true;
       session.gameName = $('#gameNameInputID').val();
       session.ID = $('#loginSesIDInput').val() || session.ID;
@@ -136,8 +134,15 @@
       });
     },
     join: function(){
+      event.stopPropagation();
+      if(session.userName === 'default'){
+        alert('You must have a name to join a game!');
+        return false;
+      }
+      console.log('clicked!');
+      $('.lobbyContainer').toggle();
       session.host = false;
-      session.ID = $('#loginSesIDInput').val() || session.ID;
+      session.ID = $(this).attr('class').replace('lobbyGameListItem ','');
       session.firebaseRef = firebase.database().ref('/sessions/' + session.ID);
       session.firebaseRef.once('value').then(function(snap){
         if(snap.val() !== null && snap.val().gameState === 'hosted'){
@@ -147,7 +152,7 @@
           session.firebaseRef.child('gameState').set('full');
           session.firebaseRef.child('clientName').set(session.userName);
           $('#sessionIDContainer').html('Session ID: <span id="sessionID">' + session.ID + '</span>');
-          $('.hostMenu').hide();
+          // $('.hostMenu').hide();
           session.playerState = 'O';
         } else if(snap.val() !== null && snap.val().gameState === 'full'){
           session.boardPull();
@@ -170,15 +175,26 @@
       });
     },
     leave: function(){
-      if(session.playerState === 'X'){
-        session.firebaseRef.child('gameState').set('unhosted');
-        session.firebaseRef.child('host').set('No Host')
-      } else if(session.playerState === 'O') {
-        session.firebaseRef.child('gameState').set('hosted');
-        session.firebaseRef.child('client').set('No Player');
-      } else {
-        session.firebaseRef.child('observers').child(session.userName).remove();
-      }
+      session.lobby.firebaseRef.child('chat').child('users').child(session.userName).set(null);
+      session.firebaseRef.child('gameState').once('value').then(function(snap){
+        if(session.playerState === 'X'){
+          session.firebaseRef.child('gameState').set('unhosted');
+          session.firebaseRef.child('host').set('No Host');
+          session.firebaseRef.set(null);
+        } else if(session.playerState === 'O' && snap.val() !== null) {
+          session.firebaseRef.child('gameState').set('hosted');
+          session.firebaseRef.child('client').set('No Player');
+        } else if(session.userName !== 'default' && snap.val() !== null) {
+            session.firebaseRef.child('observers').child(session.userName).remove();
+        }
+      });
+    },
+    stopListening: function(){
+      session.firebaseRef.child('hostName').off();
+      session.firebaseRef.child('clientName').off();
+      session.firebaseRef.child('observers').off();
+      session.firebaseRef.child('lastPlayer').off();
+      session.firebaseRef.child('tttArray').off();
     },
     startPlayerList: function(){
       session.firebaseRef.child('hostName').on('value', function(hostName){
@@ -187,6 +203,21 @@
 
       session.firebaseRef.child('clientName').on('value', function(clientName){
         $('.clientName').text(clientName.val());
+        var text = $('.clientName').text();
+        console.log(text);
+        if(text === ''){
+          $('.winPopup').show();
+          $('.winPopupShadow').show();
+          var bannerText = $('.winPopup').text('Host left game! Exiting in 3 seconds...');
+          setTimeout(function(){bannerText.text('Host left game! Exiting in 2 seconds...')}, 1000);
+          setTimeout(function(){bannerText.text('Host left game! Exiting in 1 second....')}, 2000);
+          setTimeout(function(){
+            $('.lobbyContainer').toggle();
+            $('.winPopup').toggle();
+            $('.winPopupShadow').toggle();
+          }, 3000);
+
+        }
       });
 
       session.firebaseRef.child('observers').on('value', function(observerList){
@@ -261,149 +292,155 @@
     grnDarkest: '#005F10'
 };
 
-  firebase.initializeApp(fbconfig);
-  session.lobby.firebaseRef = firebase.database().ref('/lobby/');
-  session.lobby.gamesRef = firebase.database().ref('/sessions/');
-  session.lobby.listWatch();
-  session.lobby.chat.watch();
-  session.lobby.chat.userWatch();
-  $('.winPopup').hide();
-  $('.hostMenu').hide();
-  $('.sesID').text(session.ID + ' ');
+firebase.initializeApp(fbconfig);
+session.lobby.firebaseRef = firebase.database().ref('/lobby/');
+session.lobby.gamesRef = firebase.database().ref('/sessions/');
+session.lobby.listWatch();
+session.lobby.chat.watch();
+session.lobby.chat.userWatch();
+$('.winPopup').hide();
+$('.hostMenu').hide();
+$('.sesID').text(session.ID + ' ');
 
-    function closeWinBanner(overrideHost){
-      if (session.host === true || overrideHost === true){
-          event.stopPropagation();
-          $('.winPopup').hide();
-          $('.winPopupShadow').hide();
-          $('.content2').css('background-color', colorScheme.red);
-          session.lastPlayer = 'O';
-          session.firebaseRef.child('tttArray').set('EEEEEEEEE');
-          session.firebaseRef.child('lastPlayer').set('O');
-          session.firebaseRef.child('closeWinBanner').set('1');
-        }
-      }
-
-    function testWin(){
-        checkScenario(0, 1, 2);//row 1
-        checkScenario(3, 4, 5);//row 2
-        checkScenario(6, 7, 8);//row 3
-        checkScenario(0, 4, 8);//diagonal left right
-        checkScenario(2, 4, 6);//diagonal right left
-        checkScenario(0, 3, 6);//column 1
-        checkScenario(1, 4, 7);//column 2
-        checkScenario(2, 5, 8);//column 3
-    }
-
-    function checkScenario(a, b, c){
-      var scorePath = session.firebaseRef.child(session.lastPlayer + 'score'),
-      scorePathTie = session.firebaseRef.child('Tscore');
-      session.tttArray = $('.content2');
-
-            if (session.tttArray[a].textContent === session.tttArray[b].textContent &&
-                session.tttArray[a].textContent === session.tttArray[c].textContent &&
-                session.tttArray[a].textContent != ''){
-                    session.tttArray[a].style.backgroundColor = colorScheme.green;
-                    session.tttArray[b].style.backgroundColor = colorScheme.green;
-                    session.tttArray[c].style.backgroundColor = colorScheme.green;
-                    session.firebaseRef.child('lastPlayer').once('value').then(function(winner){
-                      $('.winPopup').show();
-                      $('.winPopupShadow').show();
-
-                      if (session.host === true){
-                        $('.winPopup').html('<br/><br/><br/>' + winner.val() + ' Wins!<br/>Click to reset');
-                        scorePath.once('value', function(snap){
-                          scorePath.set(snap.val() + 1);
-                        });
-                      } else {
-                        $('.winPopup').html('<br/><br/><br/>' + winner.val() + ' Wins!<br/>Wait for ' + $('.hostName').text() + ' to reset');
-
-                        session.firebaseRef.child('closeWinBanner').on('value', function(snap){
-                          if (snap.val() === '1'){
-                            closeWinBanner(true);
-                            session.firebaseRef.child('closeWinBanner').off('value');
-                            session.firebaseRef.child('closeWinBanner').set('0');
-                          }
-                        });
-                      }
-                      return null;
-                    });
-                  } else if ($('.content2').text().length === 9) {
-                      $('.winPopup').show();
-                      $('.winPopupShadow').show();
-                      if (session.host === true){
-                        $('.winPopup').html('<br/><br/><br/>' + 'Tie!' + '<br/>Click to reset');
-                        session.lastPlayer = 'T';
-                        session.firebaseRef.child('lastWinner').set(session.lastPlayer);
-                        scorePathTie.once('value', function(snap){
-                          scorePathTie.set(snap.val() + 1);
-                        });
-                      } else {
-                        $('.winPopup').html('<br/><br/><br/>' + 'Tie!' + '<br/>Wait for ' + $('.hostName').text() + ' to reset');
-                        session.lastPlayer = 'T';
-                        session.firebaseRef.child('closeWinBanner').on('value', function(snap){
-                          if (snap.val() === '1'){
-                            closeWinBanner(true);
-                            session.firebaseRef.child('closeWinBanner').off('value');
-                            session.firebaseRef.child('closeWinBanner').set('0');
-                          }
-                        });
-                        }
-        }
-      }
-
-    function makePlay(){
+function closeWinBanner(overrideHost){
+  if (session.host === true || overrideHost === true){
       event.stopPropagation();
-      var targetElement = this;
-
-      session.firebaseRef.child('lastPlayer').once('value').then(function(snap){
-        if($(targetElement).text() === '' && snap.val() !== session.playerState && session.playerState !== 'observer'){
-          $(targetElement).text(session.playerState);
-          session.firebaseRef.child('lastPlayer').set(session.playerState);
-          session.boardPush();
-        }
-      });
+      $('.winPopup').hide();
+      $('.winPopupShadow').hide();
+      $('.content2').css('background-color', colorScheme.red);
+      session.lastPlayer = 'O';
+      session.firebaseRef.child('tttArray').set('EEEEEEEEE');
+      session.firebaseRef.child('lastPlayer').set('O');
+      session.firebaseRef.child('closeWinBanner').set('1');
     }
+  }
 
-    $('.content2').click(makePlay);
-    $('.winPopup').click(closeWinBanner);
-    $('.launchBtn').on('click', session.open);
-    $('.joinBtn').on('click', session.join);
-    $(window).on('unload', session.leave);
-    $('.lobbyHeaderSettings').on('click', function(){
-      $('.lobbySettingsContainer').toggle();
-    });
-    $('.lobbyChatInputSubmit').click(function(){
-      session.lobby.chat.submit($('#lobbyChatInputFieldID').val());
-    });
-    $('#lobbyChatInputFieldID').keyup(function(e){
-      if(e.keyCode === 13){
-        $('.lobbyChatInputSubmit').trigger('click');
+function testWin(){
+    checkScenario(0, 1, 2);//row 1
+    checkScenario(3, 4, 5);//row 2
+    checkScenario(6, 7, 8);//row 3
+    checkScenario(0, 4, 8);//diagonal left right
+    checkScenario(2, 4, 6);//diagonal right left
+    checkScenario(0, 3, 6);//column 1
+    checkScenario(1, 4, 7);//column 2
+    checkScenario(2, 5, 8);//column 3
+}
+
+function checkScenario(a, b, c){
+  var scorePath = session.firebaseRef.child(session.lastPlayer + 'score'),
+  scorePathTie = session.firebaseRef.child('Tscore');
+  session.tttArray = $('.content2');
+
+        if (session.tttArray[a].textContent === session.tttArray[b].textContent &&
+            session.tttArray[a].textContent === session.tttArray[c].textContent &&
+            session.tttArray[a].textContent != ''){
+                session.tttArray[a].style.backgroundColor = colorScheme.green;
+                session.tttArray[b].style.backgroundColor = colorScheme.green;
+                session.tttArray[c].style.backgroundColor = colorScheme.green;
+                session.firebaseRef.child('lastPlayer').once('value').then(function(winner){
+                  $('.winPopup').show();
+                  $('.winPopupShadow').show();
+
+                  if (session.host === true){
+                    $('.winPopup').html('<br/><br/><br/>' + winner.val() + ' Wins!<br/>Click to reset');
+                    scorePath.once('value', function(snap){
+                      scorePath.set(snap.val() + 1);
+                    });
+                  } else {
+                    $('.winPopup').html('<br/><br/><br/>' + winner.val() + ' Wins!<br/>Wait for ' + $('.hostName').text() + ' to reset');
+
+                    session.firebaseRef.child('closeWinBanner').on('value', function(snap){
+                      if (snap.val() === '1'){
+                        closeWinBanner(true);
+                        session.firebaseRef.child('closeWinBanner').off('value');
+                        session.firebaseRef.child('closeWinBanner').set('0');
+                      }
+                    });
+                  }
+                  return null;
+                });
+              } else if ($('.content2').text().length === 9) {
+                  $('.winPopup').show();
+                  $('.winPopupShadow').show();
+                  if (session.host === true){
+                    $('.winPopup').html('<br/><br/><br/>' + 'Tie!' + '<br/>Click to reset');
+                    session.lastPlayer = 'T';
+                    session.firebaseRef.child('lastWinner').set(session.lastPlayer);
+                    scorePathTie.once('value', function(snap){
+                      scorePathTie.set(snap.val() + 1);
+                    });
+                  } else {
+                    $('.winPopup').html('<br/><br/><br/>' + 'Tie!' + '<br/>Wait for ' + $('.hostName').text() + ' to reset');
+                    session.lastPlayer = 'T';
+                    session.firebaseRef.child('closeWinBanner').on('value', function(snap){
+                      if (snap.val() === '1'){
+                        closeWinBanner(true);
+                        session.firebaseRef.child('closeWinBanner').off('value');
+                        session.firebaseRef.child('closeWinBanner').set('0');
+                      }
+                    });
+                    }
+    }
+  }
+
+function makePlay(){
+    event.stopPropagation();
+    var targetElement = this;
+
+    session.firebaseRef.child('lastPlayer').once('value').then(function(snap){
+      if($(targetElement).text() === '' && snap.val() !== session.playerState && session.playerState !== 'observer'){
+        $(targetElement).text(session.playerState);
+        session.firebaseRef.child('lastPlayer').set(session.playerState);
+        session.boardPush();
       }
     });
-    $('.lobbySettingsName').click(function(){
-      //Abandon all hope ye who code here
-      var parent = $('#lobbySettingsName').replaceWith('<input style="position: relative;top: 4vh;" id="lobbySettingsNameFieldID" type="text" name="lobbySettingsNameField" value="'+session.userName+'" placeholder="Type a new name here!"></input>'),
-      child = $('#lobbySettingsNameFieldID').keyup(function(e){
-        if(e.keyCode === 13){
+  }
 
-          session.lobby.firebaseRef.child('chat').child('users').once('value', function(snap){
-            snap.forEach(function(child){
-              if(child.val() === session.userName){
-                session.lobby.firebaseRef.child('chat').child('users').child(session.userName).set(null);
-              }
-            });
-            session.userName = child.val();
-            session.lobby.firebaseRef.child('chat').child('users').child(session.userName).set(session.userName);
-            $('#lobbySettingsNameFieldID').replaceWith('<div id="lobbySettingsName">Current Name: ' + session.userName + '</br><span class="lobbySettingsNameSubtext">(click to edit)</span></div>');
-            $('#lobbyHeaderNameID').text('Hello, ' + session.userName + '!');
-          });
-        }
+$('.content2').click(makePlay);
+$('.winPopup').click(closeWinBanner);
+$('.launchBtn').on('click', session.open);
+$(window).on('unload', session.leave);
+$('.lobbyHeaderSettings').on('click', function(){
+  $('.lobbySettingsContainer').toggle();
+});
+$('.lobbyChatInputSubmit').click(function(){
+  session.lobby.chat.submit($('#lobbyChatInputFieldID').val());
+});
+$('#lobbyChatInputFieldID').keyup(function(e){
+  if(e.keyCode === 13){
+    $('.lobbyChatInputSubmit').trigger('click');
+  }
+});
+$('.lobbySettingsName').click(function(){
+  //Abandon all hope ye who code here
+  var parent = $('#lobbySettingsName').replaceWith('<input style="position: relative;top: 4vh;" id="lobbySettingsNameFieldID" type="text" name="lobbySettingsNameField" value="'+session.userName+'" placeholder="Type a new name here!"></input>'),
+  child = $('#lobbySettingsNameFieldID').keyup(function(e){
+    if(e.keyCode === 13){
+      $('.lobbySettingsContainer').hide();
+      session.lobby.firebaseRef.child('chat').child('users').once('value', function(snap){
+        snap.forEach(function(child){
+          if(child.val() === session.userName){
+            session.lobby.firebaseRef.child('chat').child('users').child(session.userName).set(null);
+          }
+        });
+        session.userName = child.val().replace(/[^a-z ]/ig, '');
+        session.lobby.firebaseRef.child('chat').child('users').child(session.userName).set(session.userName);
+        $('#lobbySettingsNameFieldID').replaceWith('<div id="lobbySettingsName">Current Name: ' + session.userName + '</br><span class="lobbySettingsNameSubtext">(click to edit)</span></div>');
+        $('#lobbyHeaderNameID').text('Hello, ' + session.userName + '!');
       });
-    });
-    $('.lobbyChatHost').click(function(){
-      $('.hostMenu').toggle();
-    });
-    // $('.lobbyChatHeaderJoin')
+    }
+  });
+
+});
+$('.lobbyChatHost').click(function(){
+  if(session.userName === 'default'){
+    alert('You must have a name to host a game!');
+    return false;
+  }
+    $('.hostMenu').toggle();
+  });
+$('.lscst').click(function(){
+  $(this).css('background-color', $(this).attr('id'));
+});
 
 // });

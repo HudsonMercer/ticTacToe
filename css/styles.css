@@ -107,6 +107,12 @@ body {
 .colorSchemeItem {
   text-align: center; }
 
+.settingsColorPickerInput {
+  appearance: none;
+  border: none;
+  width: 80%;
+  height: 80%; }
+
 .lobbySettingsColorSchemePri {
   width: 25%;
   background-color: #e2645a; }
@@ -365,7 +371,7 @@ body {
   left: 0px;
   top: 0px;
   width: 100vw;
-  height: 10vh;
+  height: 10%;
   text-align: center;
   background-color: #1C9C32;
   box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.75); }
@@ -384,19 +390,27 @@ body {
 .content2 {
   text-align: center;
   font-size: 5vw;
-  height: 20vh;
-  width: 31vw;
-  display: inline-block;
-  margin: 1vw;
+  min-height: 31.333%;
+  min-width: 31.333%;
+  margin: 1%;
+  display: flex;
   background-color: #CB3024;
-  padding: 5vh 0em 0em 0em;
+  padding: 0em 0em 0em 0em;
   vertical-align: top;
   border-radius: 1vw;
   box-shadow: 0px 0px 20px #222; }
   .content2:hover {
     cursor: pointer; }
 
-ul {
+.gameBoard {
+  width: 100%;
+  height: 90%; }
+
+.gameBoardRow1, .gameBoardRow2, .gameBoardRow3 {
+  display: flex;
+  width: 100%;
+  height: 33.333%;
+  flex-direction: row;
   padding: 0;
   margin: 0; }
 

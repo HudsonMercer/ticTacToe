@@ -28,32 +28,32 @@
       <div class="lobbySettingsColorSchemeText">Click a bubble to alter the color Scheme.</div>
       <div class="lobbySettingsColorSchemeContainer">
         <div class="lobbySettingsColorSchemePri colorSchemeItem">
-          <div class="lscst">$cs-redDarkest</div>
-          <div class="lscst">$cs-redDark</div>
-          <div class="lscst">$cs-red</div>
-          <div class="lscst">$cs-redLight</div>
-          <div class="lscst">$cs-redLightest</div>
+          <div class="lscst" id="colorScheme.redDarkest"><input class="settingsColorPickerInput" placeholder=""></input></div>
+          <div class="lscst" id="colorScheme.redDark"><input class="settingsColorPickerInput" placeholder=""></input></div>
+          <div class="lscst" id="colorScheme.red"><input class="settingsColorPickerInput" placeholder=""></input></div>
+          <div class="lscst" id="colorScheme.redLight"><input class="settingsColorPickerInput" placeholder=""></input></div>
+          <div class="lscst" id="colorScheme.redLighest"><input class="settingsColorPickerInput" placeholder=""></input></div>
         </div>
         <div class="lobbySettingsColorSchemeSec colorSchemeItem">
-          <div class="lscst">$cs-blueDarkest</div>
-          <div class="lscst">$cs-blueDark</div>
-          <div class="lscst">$cs-blue</div>
-          <div class="lscst">$cs-blueLight</div>
-          <div class="lscst">$cs-blueLightest</div>
+          <div class="lscst" id="colorScheme.blueDarkest"><input class="settingsColorPickerInput" placeholder=""></input>$cs-blueDarkest</div>
+          <div class="lscst" id="colorScheme.blueDark"><input class="settingsColorPickerInput" placeholder=""></input>$cs-blueDark</div>
+          <div class="lscst" id="colorScheme.blue"><input class="settingsColorPickerInput" placeholder=""></input>$cs-blue</div>
+          <div class="lscst" id="colorScheme.blueLight"><input class="settingsColorPickerInput" placeholder=""></input>$cs-blueLight</div>
+          <div class="lscst" id="colorScheme.blueLightest"><input class="settingsColorPickerInput" placeholder=""></input>$cs-blueLightest</div>
         </div>
         <div class="lobbySettingsColorSchemeTet colorSchemeItem">
-          <div class="lscst">$cs-yellDarkest</div>
-          <div class="lscst">$cs-yellDark</div>
-          <div class="lscst">$cs-yell</div>
-          <div class="lscst">$cs-yellLight</div>
-          <div class="lscst">$cs-yellLightest</div>
+          <div class="lscst" id="colorScheme.yellDarkest"><input class="settingsColorPickerInput" placeholder=""></input>$cs-yellDarkest</div>
+          <div class="lscst" id="colorScheme.yellDark"><input class="settingsColorPickerInput" placeholder=""></input>$cs-yellDark</div>
+          <div class="lscst" id="colorScheme.yell"><input class="settingsColorPickerInput" placeholder=""></input>$cs-yell</div>
+          <div class="lscst" id="colorScheme.yellLight"><input class="settingsColorPickerInput" placeholder=""></input>$cs-yellLight</div>
+          <div class="lscst" id="colorScheme.yellLightest"><input class="settingsColorPickerInput" placeholder=""></input>$cs-yellLightest</div>
         </div>
         <div class="lobbySettingsColorSchemeQua colorSchemeItem">
-          <div class="lscst">$cs-grnDarkest</div>
-          <div class="lscst">$cs-grnDark</div>
-          <div class="lscst">$cs-grn</div>
-          <div class="lscst">$cs-grnLight</div>
-          <div class="lscst">$cs-grnLightest</div>
+          <div class="lscst" id="colorScheme.grnDarkest"><input class="settingsColorPickerInput" placeholder=""></input>$cs-grnDarkest</div>
+          <div class="lscst" id="colorScheme.grnDark"><input class="settingsColorPickerInput" placeholder=""></input>$cs-grnDark</div>
+          <div class="lscst" id="colorScheme.grn"><input class="settingsColorPickerInput" placeholder=""></input>$cs.grn</div>
+          <div class="lscst" id="colorScheme.grnLight"><input class="settingsColorPickerInput" placeholder=""></input>$cs-grnLight</div>
+          <div class="lscst" id="colorScheme.grnLightest"><input class="settingsColorPickerInput" placeholder=""></input>$cs-grnLightest</div>
         </div>
       </div>
   </div>
@@ -115,18 +115,23 @@
       <div class="dashItem" id="playerNames">Host Name: <span class="hostName"></span> <br/>Client Name: <span class="clientName"></span> </div>
       <div class="dashItem" id="observerNames"></div>
     </div>
-
-      <ul>
-          <li id="ttt0" class="content2"></li>
-          <li id="ttt1" class="content2"></li>
-          <li id="ttt2" class="content2"></li>
-          <li id="ttt3" class="content2"></li>
-          <li id="ttt4" class="content2"></li>
-          <li id="ttt5" class="content2"></li>
-          <li id="ttt6" class="content2"></li>
-          <li id="ttt7" class="content2"></li>
-          <li id="ttt8" class="content2"></li>
-      </ul>
+    <div class="gameBoard">
+        <div class="gameBoardRow1">
+          <div id="ttt0" class="content2"></div>
+          <div id="ttt1" class="content2"></div>
+          <div id="ttt2" class="content2"></div>
+        </div>
+        <div class="gameBoardRow2">
+          <div id="ttt3" class="content2"></div>
+          <div id="ttt4" class="content2"></div>
+          <div id="ttt5" class="content2"></div>
+        </div>
+        <div class="gameBoardRow3">
+          <div id="ttt6" class="content2"></div>
+          <div id="ttt7" class="content2"></div>
+          <div id="ttt8" class="content2"></div>
+        </div>
+    </div>
       <div class="winPopup">If you can see this, something went wrong...</div>
       <div class="winPopupShadow"></div>
 
