@@ -118,6 +118,7 @@ var
         if(resetID){session.ID = Math.random().toString(36).substring(7)}
         session.lastPlayer = 'O';
       }, 3000);
+      session.leave();
 
     },
     open: function(){
@@ -199,9 +200,9 @@ var
           session.firebaseRef.child('gameState').set('unhosted');
           session.firebaseRef.child('host').set('No Host');
           session.firebaseRef.set(null);
-        } else if(session.playerState === 'O' && snap.val() !== null) {
-          session.firebaseRef.child('gameState').set('hosted');
-          session.firebaseRef.child('client').set('No Player');
+        } else if(session.playerState === 'O' && snap.val() !== null && snap.val() !== 'unhosted') {
+            session.firebaseRef.child('gameState').set('hosted');
+            session.firebaseRef.child('client').set('No Player');
         } else if(session.userName !== 'default' && snap.val() !== null) {
             session.firebaseRef.child('observers').child(session.userName).remove();
         }
