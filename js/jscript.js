@@ -118,7 +118,6 @@ var
         if(resetID){session.ID = Math.random().toString(36).substring(7)}
         session.lastPlayer = 'O';
       }, 3000);
-      session.leave();
 
     },
     open: function(){
@@ -300,7 +299,8 @@ var
     grnLight: '#3AAB4E',
     grnDark: '#0D7D20',
     grnDarkest: '#005F10'
-};
+  },
+  settingsInt = null;
 
 firebase.initializeApp(fbconfig);
 session.lobby.firebaseRef = firebase.database().ref('/lobby/');
@@ -409,6 +409,20 @@ function makePlay(){
 $('.content2').click(makePlay);
 $('.winPopup').click(closeWinBanner);
 $('.launchBtn').on('click', session.open);
+$('.lobbySettingsHeader').on('mousedown', function(e){
+  var target = $('.lobbySettingsContainer'),
+      offset = target.offset();
+
+  settingsInt = setInterval(function(){
+    // TODO: FIX THIS SO DRAG AND DROP WORKS
+    offset.top = e.pageY - target.offset().top;
+    offset.left = e.pageX - target.offset().left;
+    target.offset(offset);
+  }, 32);
+});
+$('.lobbySettingsHeader').on('mouseup', function(){
+  clearInterval(settingsInt);
+});
 $(window).on('unload', session.leave);
 $('.lobbyHeaderSettings').on('click', function(){
   $('.lobbySettingsContainer').toggle();
