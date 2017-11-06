@@ -1,98 +1,100 @@
-//V2.1 RC Internet Multiplayer, Firebase integration, Jquery DOM manipulation
+//V2.2 RC Internet Multiplayer, Firebase integration, Jquery DOM manipulation
 
 // $(document).ready(function(){
     //"Global" Vars
-    var
-    fbconfig = {
-      apiKey: "AIzaSyCWcbz2SwfHQDkVq9qu0_UmJT9giOVNVrM",
-      authDomain: "tictactoe-b8474.firebaseapp.com",
-      databaseURL: "https://tictactoe-b8474.firebaseio.com",
-      projectId: "tictactoe-b8474",
-      storageBucket: "tictactoe-b8474.appspot.com",
-      messagingSenderId: "1097292712686"
-    },
-    session = {
-      lobby: {
-        listWatch: function(){
-          var divChild = undefined;
-          //add to lobby list
-          session.lobby.gamesRef.on('child_added', function(snap){
-            divChild = $(`<div class="lobbyGameListItem"><div class="lobbyGameListIcon ${snap.key}"></div><span class="lobbyGameListText ${snap.key}">${snap.child('gameName/').val()}: ${snap.child('hostName/').val()}</span></div>`);
-            $('.lobbyGameList').append(divChild);
-            $('.lobbyGameListItem').on('click', session.join);
-            divChild.addClass(snap.key);
-          });
+var
+  fbconfig = {
+    apiKey: "AIzaSyCWcbz2SwfHQDkVq9qu0_UmJT9giOVNVrM",
+    authDomain: "tictactoe-b8474.firebaseapp.com",
+    databaseURL: "https://tictactoe-b8474.firebaseio.com",
+    projectId: "tictactoe-b8474",
+    storageBucket: "tictactoe-b8474.appspot.com",
+    messagingSenderId: "1097292712686"
+  },
+  session = {
+    lobby: {
+      listWatch: function(){
+        var divChild = undefined;
+        //add to lobby list
+        session.lobby.gamesRef.on('child_added', function(snap){
+          divChild = $(`<div class="lobbyGameListItem"><div class="lobbyGameListIcon ${snap.key}"></div><span class="lobbyGameListText ${snap.key}">${snap.child('gameName/').val()}: ${snap.child('hostName/').val()}</span></div>`);
+          $('.lobbyGameList').append(divChild);
+          $('.lobbyGameListItem').on('click', session.join);
+          divChild.addClass(snap.key);
+        });
 
-          //remove from lobby list
-          session.lobby.gamesRef.on('child_removed', function(snap){
-            $('.' + snap.key).remove();
-          });
+        //remove from lobby list
+        session.lobby.gamesRef.on('child_removed', function(snap){
+          $('.' + snap.key).remove();
+        });
 
-          //change color depending on what the game state is
-          session.lobby.gamesRef.on('child_changed', function(snap){
+        //change color depending on what the game state is
+        session.lobby.gamesRef.on('child_changed', function(snap){
 
-            var jqueryTar = $(`.lobbyGameListItem.${snap.key}`);
+          var jqueryTar = $(`.lobbyGameListItem.${snap.key}`);
 
-            jqueryTar.html(`<div class="lobbyGameListIcon ${snap.key}"></div><span class="lobbyGameListText ${snap.key}">${snap.child('gameName/').val()}: ${snap.child('hostName/').val()}</span>`);
+          jqueryTar.html(`<div class="lobbyGameListIcon ${snap.key}"></div><span class="lobbyGameListText ${snap.key}">${snap.child('gameName/').val()}: ${snap.child('hostName/').val()}</span>`);
 
-            switch(snap.child('gameState/').val()){
-              case 'unhosted':
-                jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.yell);
-                break;
-              case 'hosted':
-                jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.grn);
-                break;
-              case 'empty':
-                jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.grn);
-                break;
-              case 'full':
-                jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.red);
-                break;
-              default:
+          switch(snap.child('gameState/').val()){
+            case 'unhosted':
+              jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.yell);
               break;
-            }
+            case 'hosted':
+              jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.grn);
+              break;
+            case 'empty':
+              jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.grn);
+              break;
+            case 'full':
+              jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.red);
+              break;
+            default:
+            break;
+          }
 
 
+        });
+      },
+      chat: {
+        area: $('.lobbyChatArea'),
+        userListArea: $('.lobbyChatUserList'),
+        start: function(){
+          var areaShort = session.lobby.chat.area;
+          session.lobby.firebaseRef.child('chat').child('items').once('value').then(function(snap){
+            snap.forEach(function(chatItem){
+              areaShort.append('<div class="lobbyChatItem">' + chatItem.val() + '</div>');
+              areaShort.scrollTop(areaShort[0].scrollHeight); //scroll to the bottom of chat.
+            })
           });
         },
-        chat: {
-          area: $('.lobbyChatArea'),
-          userListArea: $('.lobbyChatUserList'),
-          start: function(){
-            var areaShort = session.lobby.chat.area;
-            session.lobby.firebaseRef.child('chat').child('items').once('value').then(function(snap){
-              snap.forEach(function(chatItem){
-                areaShort.append('<div class="lobbyChatItem">' + chatItem.val() + '</div>');
-                areaShort.scrollTop(areaShort[0].scrollHeight); //scroll to the bottom of chat.
-              })
-            });
-          },
-          watch: function(){
-            var areaShort = session.lobby.chat.area;
-            session.lobby.firebaseRef.child('chat').child('items').on('child_added', function(snap){
-              areaShort.append('<div class="lobbyChatItem">'+ snap.val() +'</div>');
-              areaShort.scrollTop(areaShort[0].scrollHeight); //scroll to the bottom of chat.
-            });
-          },
-          submit: function(message){
-            var areaShort = session.lobby.chat.area;
-            session.lobby.firebaseRef.child('chat').child('items').child(Math.random().toString(36).substring(7)).set(session.userName +': '+ message);
-            $('#lobbyChatInputFieldID').val('');
-          },
-          userWatch: function() {
-            session.lobby.firebaseRef.child('chat').child('users').on('child_added', function(snap){
-              var chatItemDiv = $('<div class="lobbyChatUserItem">'+snap.val()+'</div>'),
-               child = chatItemDiv.appendTo(session.lobby.chat.userListArea);
-              if(child.text() === session.userName){
-                child.css('background-color', colorScheme.grn);
-              }
-            });
-            session.lobby.firebaseRef.child('chat').child('users').on('child_removed', function(snap){
-              $('.lobbyChatUserItem:contains('+snap.val()+')').remove();
-            });
-          }
+        watch: function(){
+          var areaShort = session.lobby.chat.area;
+          session.lobby.firebaseRef.child('chat').child('items').orderByChild('date').on('child_added', function(snap){
+            areaShort.append('<div class="lobbyChatItem">'+ snap.val().message +'</div>');
+            areaShort.scrollTop(areaShort[0].scrollHeight); //scroll to the bottom of chat.
+          });
+        },
+        submit: function(message){
+          var areaShort = session.lobby.chat.area,
+              localKey = Math.random().toString(36).substring(7);
+          session.lobby.firebaseRef.child('chat').child('items').child(localKey).child('message').set(session.userName +': '+ message);
+          session.lobby.firebaseRef.child('chat').child('items').child(localKey).child('date').set(Date.now());
+          $('#lobbyChatInputFieldID').val('');
+        },
+        userWatch: function() {
+          session.lobby.firebaseRef.child('chat').child('users').on('child_added', function(snap){
+            var chatItemDiv = $('<div class="lobbyChatUserItem">'+snap.val()+'</div>'),
+             child = chatItemDiv.appendTo(session.lobby.chat.userListArea);
+            if(child.text() === session.userName){
+              child.css('background-color', colorScheme.grn);
+            }
+          });
+          session.lobby.firebaseRef.child('chat').child('users').on('child_removed', function(snap){
+            $('.lobbyChatUserItem:contains('+snap.val()+')').remove();
+          });
         }
-      },
+      }
+    },
     userName: 'default',
     tttArray: $('content2'),
     host: undefined,
@@ -102,6 +104,22 @@
     gameName: 'Unset',
     curDate: Date().toString(),
     ID: Math.random().toString(36).substring(7),
+    forceExit: function(reason, resetID){
+      $('.winPopup').show();
+      $('.winPopupShadow').show();
+      var bannerText = $('.winPopup').text(reason + ' Exiting in 3 seconds...');
+      setTimeout(function(){bannerText.text(reason + ' Exiting in 2 seconds...')}, 1000);
+      setTimeout(function(){bannerText.text(reason + ' Exiting in 1 second....')}, 2000);
+      setTimeout(function(){
+        $('.lobbyContainer').toggle();
+        $('.winPopup').toggle();
+        $('.winPopupShadow').toggle();
+        session.stopListening();
+        if(resetID){session.ID = Math.random().toString(36).substring(7)}
+        session.lastPlayer = 'O';
+      }, 3000);
+
+    },
     open: function(){
       $('.hostMenu').toggle();
       $('.lobbyContainer').toggle();
@@ -206,20 +224,7 @@
         var text = $('.clientName').text();
         console.log(text);
         if(text === ''){
-          $('.winPopup').show();
-          $('.winPopupShadow').show();
-          var bannerText = $('.winPopup').text('Host left game! Exiting in 3 seconds...');
-          setTimeout(function(){bannerText.text('Host left game! Exiting in 2 seconds...')}, 1000);
-          setTimeout(function(){bannerText.text('Host left game! Exiting in 1 second....')}, 2000);
-          setTimeout(function(){
-            $('.lobbyContainer').toggle();
-            $('.winPopup').toggle();
-            $('.winPopupShadow').toggle();
-            session.stopListening();
-            session.ID = Math.random().toString(36).substring(7);
-            session.lastPlayer = 'O';
-          }, 3000);
-
+          session.forceExit("The host left the game!", true);
         }
       });
 
@@ -254,21 +259,22 @@
       });
     },
     boardPush: function(){
-      var internalArray = '',
-      i = 0;
+        var internalArray = '',
+        i = 0;
 
-      for(i=0; i < session.tttArray.length; i++){
-        if(session.tttArray[i].textContent !== ''){
-            internalArray += session.tttArray[i].textContent;
-          } else {
-            internalArray += 'E';
+        for(i=0; i < session.tttArray.length; i++){
+          if(session.tttArray[i].textContent !== ''){
+              internalArray += session.tttArray[i].textContent;
+            } else {
+              internalArray += 'E';
+            }
           }
-        }
 
-      console.log('pushing: ' + internalArray);
-      session.firebaseRef.child('tttArray').set(internalArray);
-    }
-  },
+        console.log('pushing: ' + internalArray);
+        session.firebaseRef.child('tttArray').set(internalArray);
+      }
+    },
+  sessionDefault = session,
   colorScheme = {
     red: '#CB3024',	// Main Primary color */
     redLightest: '#FF877D',
