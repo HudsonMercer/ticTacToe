@@ -15,6 +15,8 @@ body {
   position: absolute;
   border: 1px solid black;
   z-index: 4;
+  overflow: hidden;
+  user-select: none;
   box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.5); }
 
 .lobbySettingsHeader {

@@ -411,18 +411,19 @@ $('.winPopup').click(closeWinBanner);
 $('.launchBtn').on('click', session.open);
 $('.lobbySettingsHeader').on('mousedown', function(e){
   var target = $('.lobbySettingsContainer'),
-      offset = target.offset();
+      offset = {top: e.pageY - target.offset().top, left: e.pageX - target.offset().left};
 
-  settingsInt = setInterval(function(){
-    // TODO: FIX THIS SO DRAG AND DROP WORKS
-    offset.top = e.pageY - target.offset().top;
-    offset.left = e.pageX - target.offset().left;
-    target.offset(offset);
-  }, 32);
+  $(document).on('mousemove', function(ev){
+    var newOffset = {top: ev.pageY - offset.top, left: ev.pageX - offset.left};
+    target.offset(newOffset);
+  });
+
+  $(document).on('mouseup', function(){
+   $(document).off('mousemove');
+   $(document).off('mouseup');
+  });
 });
-$('.lobbySettingsHeader').on('mouseup', function(){
-  clearInterval(settingsInt);
-});
+
 $(window).on('unload', session.leave);
 $('.lobbyHeaderSettings').on('click', function(){
   $('.lobbySettingsContainer').toggle();
