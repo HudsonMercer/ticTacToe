@@ -408,6 +408,9 @@ function makePlay(){
 
 $('.content2').click(makePlay);
 $('.winPopup').click(closeWinBanner);
+$('.lobbyAvatar').click(function(){
+  $('.lobbySettingsContainer').toggle();
+});
 $('.launchBtn').on('click', session.open);
 $('.lobbySettingsHeader').on('mousedown', function(e){
   var target = $('.lobbySettingsContainer'),
@@ -419,11 +422,27 @@ $('.lobbySettingsHeader').on('mousedown', function(e){
   });
 
   $(document).on('mouseup', function(){
+    var i = {top: target.offset().top, left: target.offset().left};
    $(document).off('mousemove');
    $(document).off('mouseup');
+   if(target.offset().top <= 0){
+     i.top = 0;
+     target.offset(i);
+   }
+   if(target.offset().left <= 0){
+     i.left = 0;
+     target.offset(i);
+   }
+   if(target.offset().top >= window.innerHeight - $('.lobbySettingsHeader').height()){
+   i.top = window.innerHeight - $('.lobbySettingsHeader').height();
+   target.offset(i);
+   }
+   if(target.offset().left >= window.innerWidth - $('.lobbySettingsHeader').width() * .2){
+   i.left = window.innerWidth - $('.lobbySettingsHeader').width() * .2;
+   target.offset(i);
+   }
   });
 });
-
 $(window).on('unload', session.leave);
 $('.lobbyHeaderSettings').on('click', function(){
   $('.lobbySettingsContainer').toggle();
