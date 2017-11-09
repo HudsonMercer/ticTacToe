@@ -75,18 +75,21 @@ body {
   margin-left: 4px;
   margin-top: auto;
   height: 128px;
+    width: 128px;
   border: 1px solid black;
 }
 .lobbySettingsAvatarMImg{
   margin-left: 4px;
   margin-top: auto;
   height: 64px;
+  width: 64px;
   border: 1px solid black;
 }
 .lobbySettingsAvatarSImg{
   margin-left: 4px;
   margin-top: auto;
   height: 32px;
+    width: 32px;
   border: 1px solid black;
 }
 
@@ -95,6 +98,7 @@ body {
   color: white;
   text-align: center;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
+  width: 30%;
   // background-color: $cs-red;
 }
 
@@ -361,7 +365,7 @@ body {
 
 .lobbyChatInputSubmit {
   max-width: 15%;
-  background-color: $cs-blueDarkest;
+  background-color: $cs-blueLight;
   color: white;
   flex: 1 0;
   text-align: center;

@@ -406,6 +406,110 @@ function makePlay(){
     });
   }
 
+function resizeImg(file, max_width, max_height, compression_ratio, imageEncoding, callback){
+  function dataURItoBlob(dataURI) {
+  // convert base64 to raw binary data held in a string
+  // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+  var byteString = atob(dataURI.split(',')[1]);
+
+  // separate out the mime component
+  var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+  // write the bytes of the string to an ArrayBuffer
+  var ab = new ArrayBuffer(byteString.length);
+
+  // create a view into the buffer
+  var ia = new Uint8Array(ab);
+
+  // set the bytes of the buffer to the correct values
+  for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+  }
+
+  // write the ArrayBuffer to a blob, and you're done
+  var blob = new Blob([ab], {type: mimeString});
+  return blob;
+
+}
+
+  var fileLoader = new FileReader(),
+  canvas = document.createElement('canvas'),
+  context = null,
+  imageObj = new Image(),
+  blob = null;
+
+  //create a hidden canvas object we can use to create the new resized image data
+  canvas.id     = "hiddenCanvas";
+  canvas.width  = max_width;
+  canvas.height = max_height;
+  canvas.style.visibility   = "hidden";
+  document.body.appendChild(canvas);
+
+  //get the context to use
+  context = canvas.getContext('2d');
+
+  // check for an image then
+  //trigger the file loader to get the data from the image
+  if (file.type.match('image.*')) {
+      fileLoader.readAsDataURL(file);
+  } else {
+      alert('File is not an image');
+  }
+
+  // setup the file loader onload function
+  // once the file loader has the data it passes it to the
+  // image object which, once the image has loaded,
+  // triggers the images onload function
+  fileLoader.onload = function() {
+      var data = this.result;
+      imageObj.src = data;
+  };
+
+  fileLoader.onabort = function() {
+      alert("The upload was aborted.");
+  };
+
+  fileLoader.onerror = function() {
+      alert("An error occured while reading the file.");
+  };
+
+
+  // set up the images onload function which clears the hidden canvas context,
+  // draws the new image then gets the blob data from it
+  imageObj.onload = function() {
+
+      // Check for empty images
+      if(this.width == 0 || this.height == 0){
+          alert('Image is empty');
+      } else {
+
+          context.clearRect(0,0,max_width,max_height);
+          context.drawImage(imageObj, 0, 0, this.width, this.height, 0, 0, max_width, max_height);
+
+
+          //dataURItoBlob function available here:
+          // http://stackoverflow.com/questions/12168909/blob-from-dataurl
+          // add ')' at the end of this function SO dont allow to update it without a 6 character edit
+          blob = dataURItoBlob(canvas.toDataURL(imageEncoding));
+
+          //pass this blob to your upload function
+          if(callback){
+            callback(URL.createObjectURL(blob));
+          }
+          return URL.createObjectURL(blob);
+      }
+  };
+
+  imageObj.onabort = function() {
+      alert("Image load was aborted.");
+  };
+
+  imageObj.onerror = function() {
+      alert("An error occured while loading image.");
+  };
+
+}
+
 $('.content2').click(makePlay);
 $('.winPopup').click(closeWinBanner);
 $('.lobbyAvatar').click(function(){
@@ -494,5 +598,18 @@ $('.lobbyChatHost').click(function(){
 $('.lscst').click(function(){
   $(this).css('background-color', $(this).attr('id'));
 });
-
+$('.lobbyAvatarImg').on('click', function(){
+  $('.fileinputButton').click();
+});
+$('.fileinputButton').on('change', function(e){
+  var targetFile = URL.createObjectURL(e.target.files[0]),
+      a = resizeImg(e.target.files[0], 256, 256, 1, "image/png", function(e){
+        $('.lobbyAvatarImg').attr('src', e);
+        $('.lobbySettingsAvatarLImg').attr('src', e);
+        $('.lobbySettingsAvatarMImg').attr('src', e);
+        $('.lobbySettingsAvatarSImg').attr('src', e);
+        //IT WORKS DONT TOUCH IT.
+      });
+      //a is the blob URI that leads to the image, upload at your own peril.
+});
 // });
