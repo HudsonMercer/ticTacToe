@@ -65,20 +65,15 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__authModule_js__ = __webpack_require__(1);
 //V2.2 RC Internet Multiplayer, Firebase integration, Jquery DOM manipulation
 
 // $(document).ready(function(){
 //"Global" Vars
 
-
-/* var
+//import all from './sessionModule.jsx';
+ var
   fbconfig = {
     apiKey: "AIzaSyCWcbz2SwfHQDkVq9qu0_UmJT9giOVNVrM",
     authDomain: "tictactoe-b8474.firebaseapp.com",
@@ -376,7 +371,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     grnDark: '#0D7D20',
     grnDarkest: '#005F10'
   },
-  settingsInt = null; */
+  settingsInt = null; 
 
 firebase.initializeApp(fbconfig);
 session.lobby.firebaseRef = firebase.database().ref('/lobby/');
@@ -691,39 +686,6 @@ $('.fileinputButton').on('change', function(e){
 });
 // });
 
-
-/***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export default */
-function authModule(){
-  firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    // User is signed in.
-    var displayName = user.displayName;
-    var email = user.email;
-    var emailVerified = user.emailVerified;
-    var photoURL = user.photoURL;
-    var isAnonymous = user.isAnonymous;
-    var uid = user.uid;
-    var providerData = user.providerData;
-    // ...
-  } else {
-    // User is signed out.
-    // ...
-  }
-});
-
-}
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-throw new Error("Module parse failed: Unexpected token (1:15)\nYou may need an appropriate loader to handle this file type.\n| export default var fbconfig = {\r\n|     apiKey: \"AIzaSyCWcbz2SwfHQDkVq9qu0_UmJT9giOVNVrM\",\r\n|     authDomain: \"tictactoe-b8474.firebaseapp.com\",\r");
 
 /***/ })
 /******/ ]);

@@ -3,8 +3,8 @@
 // $(document).ready(function(){
 //"Global" Vars
 
-import all from './sessionModule.jsx';
-/* var
+//import all from './sessionModule.jsx';
+ var
   fbconfig = {
     apiKey: "AIzaSyCWcbz2SwfHQDkVq9qu0_UmJT9giOVNVrM",
     authDomain: "tictactoe-b8474.firebaseapp.com",
@@ -302,7 +302,7 @@ import all from './sessionModule.jsx';
     grnDark: '#0D7D20',
     grnDarkest: '#005F10'
   },
-  settingsInt = null; */
+  settingsInt = null; 
 
 firebase.initializeApp(fbconfig);
 session.lobby.firebaseRef = firebase.database().ref('/lobby/');
@@ -313,7 +313,7 @@ session.lobby.chat.userWatch();
 $('.winPopup').hide();
 $('.hostMenu').hide();
 $('.sesID').text(session.ID + ' ');
-import authModule from './authModule.js';
+
 
 function closeWinBanner(overrideHost){
   if (session.host === true || overrideHost === true){
