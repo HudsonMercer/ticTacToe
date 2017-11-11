@@ -1,8 +1,10 @@
 //V2.2 RC Internet Multiplayer, Firebase integration, Jquery DOM manipulation
 
 // $(document).ready(function(){
-    //"Global" Vars
-var
+//"Global" Vars
+
+import all from './sessionModule.jsx';
+/* var
   fbconfig = {
     apiKey: "AIzaSyCWcbz2SwfHQDkVq9qu0_UmJT9giOVNVrM",
     authDomain: "tictactoe-b8474.firebaseapp.com",
@@ -276,31 +278,31 @@ var
     },
   sessionDefault = session,
   colorScheme = {
-    red: '#CB3024',	// Main Primary color */
+    red: '#CB3024',	// Main Primary color
     redLightest: '#FF877D',
     redLight: '#E0564C',
     redDark: '#A41B11',
     redDarkest: '#7C0900',
 
-    blue: '#1B6480',	// Main Secondary color (1) */
+    blue: '#1B6480',	// Main Secondary color (1)
     blueLightest: '#538DA3',
     blueLight: '#33748D',
     blueDark: '#0E4E67',
     blueDarkest: '#03394E',
 
-    yell: '#CB7B24',	// Main Secondary color (2) */
+    yell: '#CB7B24',	// Main Secondary color (2)
     yellLightest: '#FFC17D',
     yellLight: '#E0994C',
     yellDark: '#A45D11',
     yellDarkest: '#7C4000',
 
-    grn: '#1C9C32',	// Main Complement color */
+    grn: '#1C9C32',	// Main Complement color
     grnLightest: '#61C572',
     grnLight: '#3AAB4E',
     grnDark: '#0D7D20',
     grnDarkest: '#005F10'
   },
-  settingsInt = null;
+  settingsInt = null; */
 
 firebase.initializeApp(fbconfig);
 session.lobby.firebaseRef = firebase.database().ref('/lobby/');
@@ -311,6 +313,7 @@ session.lobby.chat.userWatch();
 $('.winPopup').hide();
 $('.hostMenu').hide();
 $('.sesID').text(session.ID + ' ');
+import authModule from './authModule.js';
 
 function closeWinBanner(overrideHost){
   if (session.host === true || overrideHost === true){

@@ -65,13 +65,20 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__authModule_js__ = __webpack_require__(1);
 //V2.2 RC Internet Multiplayer, Firebase integration, Jquery DOM manipulation
 
 // $(document).ready(function(){
-    //"Global" Vars
-var
+//"Global" Vars
+
+
+/* var
   fbconfig = {
     apiKey: "AIzaSyCWcbz2SwfHQDkVq9qu0_UmJT9giOVNVrM",
     authDomain: "tictactoe-b8474.firebaseapp.com",
@@ -345,31 +352,31 @@ var
     },
   sessionDefault = session,
   colorScheme = {
-    red: '#CB3024',	// Main Primary color */
+    red: '#CB3024',	// Main Primary color
     redLightest: '#FF877D',
     redLight: '#E0564C',
     redDark: '#A41B11',
     redDarkest: '#7C0900',
 
-    blue: '#1B6480',	// Main Secondary color (1) */
+    blue: '#1B6480',	// Main Secondary color (1)
     blueLightest: '#538DA3',
     blueLight: '#33748D',
     blueDark: '#0E4E67',
     blueDarkest: '#03394E',
 
-    yell: '#CB7B24',	// Main Secondary color (2) */
+    yell: '#CB7B24',	// Main Secondary color (2)
     yellLightest: '#FFC17D',
     yellLight: '#E0994C',
     yellDark: '#A45D11',
     yellDarkest: '#7C4000',
 
-    grn: '#1C9C32',	// Main Complement color */
+    grn: '#1C9C32',	// Main Complement color
     grnLightest: '#61C572',
     grnLight: '#3AAB4E',
     grnDark: '#0D7D20',
     grnDarkest: '#005F10'
   },
-  settingsInt = null;
+  settingsInt = null; */
 
 firebase.initializeApp(fbconfig);
 session.lobby.firebaseRef = firebase.database().ref('/lobby/');
@@ -380,6 +387,7 @@ session.lobby.chat.userWatch();
 $('.winPopup').hide();
 $('.hostMenu').hide();
 $('.sesID').text(session.ID + ' ');
+
 
 function closeWinBanner(overrideHost){
   if (session.host === true || overrideHost === true){
@@ -683,6 +691,39 @@ $('.fileinputButton').on('change', function(e){
 });
 // });
 
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export default */
+function authModule(){
+  firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    var displayName = user.displayName;
+    var email = user.email;
+    var emailVerified = user.emailVerified;
+    var photoURL = user.photoURL;
+    var isAnonymous = user.isAnonymous;
+    var uid = user.uid;
+    var providerData = user.providerData;
+    // ...
+  } else {
+    // User is signed out.
+    // ...
+  }
+});
+
+}
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+throw new Error("Module parse failed: Unexpected token (1:15)\nYou may need an appropriate loader to handle this file type.\n| export default var fbconfig = {\r\n|     apiKey: \"AIzaSyCWcbz2SwfHQDkVq9qu0_UmJT9giOVNVrM\",\r\n|     authDomain: \"tictactoe-b8474.firebaseapp.com\",\r");
 
 /***/ })
 /******/ ]);
