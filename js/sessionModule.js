@@ -1,3 +1,4 @@
+
 var session =  {
   fbconfig: {
     apiKey: "AIzaSyCWcbz2SwfHQDkVq9qu0_UmJT9giOVNVrM",
@@ -10,7 +11,7 @@ var session =  {
   lobby: {
     listWatch: function(){
       var divChild = undefined;
-      //add to lobby list
+      //add to lobbyli st
       session.lobby.gamesRef.on('child_added', function(snap){
         divChild = $(`<div class="lobbyGameListItem"><div class="lobbyGameListIcon ${snap.key}"></div><span class="lobbyGameListText ${snap.key}">${snap.child('gameName/').val()}: ${snap.child('hostName/').val()}</span></div>`);
         $('.lobbyGameList').append(divChild);
@@ -32,16 +33,16 @@ var session =  {
 
         switch(snap.child('gameState/').val()){
           case 'unhosted':
-            jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.yell);
+            jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', session.colorScheme.yell);
             break;
           case 'hosted':
-            jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.grn);
+            jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', session.colorScheme.grn);
             break;
           case 'empty':
-            jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.grn);
+            jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', session.colorScheme.grn);
             break;
           case 'full':
-            jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.red);
+            jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', session.colorScheme.red);
             break;
           default:
           break;
@@ -81,7 +82,7 @@ var session =  {
           var chatItemDiv = $('<div class="lobbyChatUserItem">'+snap.val()+'</div>'),
            child = chatItemDiv.appendTo(session.lobby.chat.userListArea);
           if(child.text() === session.userName){
-            child.css('background-color', colorScheme.grn);
+            child.css('background-color', session.colorScheme.grn);
           }
         });
         session.lobby.firebaseRef.child('chat').child('users').on('child_removed', function(snap){

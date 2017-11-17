@@ -69,7 +69,8 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__authModule_js__ = __webpack_require__(2);
 //V2.2 RC Internet Multiplayer, Firebase integration, Jquery DOM manipulation
 
 // $(document).ready(function(){
@@ -77,27 +78,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-firebase.initializeApp(__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].fbconfig);
-__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].lobby.firebaseRef = firebase.database().ref('/lobby/');
-__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].lobby.gamesRef = firebase.database().ref('/sessions/');
-__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].lobby.listWatch();
-__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].lobby.chat.watch();
-__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].lobby.chat.userWatch();
+firebase.initializeApp(__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].fbconfig);
+__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].lobby.firebaseRef = firebase.database().ref('/lobby/');
+__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].lobby.gamesRef = firebase.database().ref('/sessions/');
+__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].lobby.listWatch();
+__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].lobby.chat.watch();
+__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].lobby.chat.userWatch();
 $('.winPopup').hide();
 $('.hostMenu').hide();
-$('.sesID').text(__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].ID + ' ');
+$('.sesID').text(__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].ID + ' ');
 
 
 function closeWinBanner(overrideHost){
-  if (__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].host === true || overrideHost === true){
+  if (__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].host === true || overrideHost === true){
       event.stopPropagation();
       $('.winPopup').hide();
       $('.winPopupShadow').hide();
-      $('.content2').css('background-color', colorScheme.red);
-      __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].lastPlayer = 'O';
-      __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].firebaseRef.child('tttArray').set('EEEEEEEEE');
-      __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].firebaseRef.child('lastPlayer').set('O');
-      __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].firebaseRef.child('closeWinBanner').set('1');
+      $('.content2').css('background-color', __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].colorScheme.red);
+      __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].lastPlayer = 'O';
+      __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].firebaseRef.child('tttArray').set('EEEEEEEEE');
+      __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].firebaseRef.child('lastPlayer').set('O');
+      __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].firebaseRef.child('closeWinBanner').set('1');
     }
   }
 
@@ -113,21 +114,21 @@ function testWin(){
 }
 
 function checkScenario(a, b, c){
-  var scorePath = __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].firebaseRef.child(__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].lastPlayer + 'score'),
-  scorePathTie = __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].firebaseRef.child('Tscore');
-  __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].tttArray = $('.content2');
+  var scorePath = __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].firebaseRef.child(__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].lastPlayer + 'score'),
+  scorePathTie = __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].firebaseRef.child('Tscore');
+  __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].tttArray = $('.content2');
 
-        if (__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].tttArray[a].textContent === __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].tttArray[b].textContent &&
-            __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].tttArray[a].textContent === __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].tttArray[c].textContent &&
-            __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].tttArray[a].textContent != ''){
-                __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].tttArray[a].style.backgroundColor = colorScheme.green;
-                __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].tttArray[b].style.backgroundColor = colorScheme.green;
-                __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].tttArray[c].style.backgroundColor = colorScheme.green;
-                __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].firebaseRef.child('lastPlayer').once('value').then(function(winner){
+        if (__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].tttArray[a].textContent === __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].tttArray[b].textContent &&
+            __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].tttArray[a].textContent === __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].tttArray[c].textContent &&
+            __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].tttArray[a].textContent != ''){
+                __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].tttArray[a].style.backgroundColor = __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].colorScheme.green;
+                __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].tttArray[b].style.backgroundColor = __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].colorScheme.green;
+                __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].tttArray[c].style.backgroundColor = __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].colorScheme.green;
+                __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].firebaseRef.child('lastPlayer').once('value').then(function(winner){
                   $('.winPopup').show();
                   $('.winPopupShadow').show();
 
-                  if (__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].host === true){
+                  if (__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].host === true){
                     $('.winPopup').html('<br/><br/><br/>' + winner.val() + ' Wins!<br/>Click to reset');
                     scorePath.once('value', function(snap){
                       scorePath.set(snap.val() + 1);
@@ -135,11 +136,11 @@ function checkScenario(a, b, c){
                   } else {
                     $('.winPopup').html('<br/><br/><br/>' + winner.val() + ' Wins!<br/>Wait for ' + $('.hostName').text() + ' to reset');
 
-                    __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].firebaseRef.child('closeWinBanner').on('value', function(snap){
+                    __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].firebaseRef.child('closeWinBanner').on('value', function(snap){
                       if (snap.val() === '1'){
                         closeWinBanner(true);
-                        __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].firebaseRef.child('closeWinBanner').off('value');
-                        __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].firebaseRef.child('closeWinBanner').set('0');
+                        __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].firebaseRef.child('closeWinBanner').off('value');
+                        __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].firebaseRef.child('closeWinBanner').set('0');
                       }
                     });
                   }
@@ -148,21 +149,21 @@ function checkScenario(a, b, c){
               } else if ($('.content2').text().length === 9) {
                   $('.winPopup').show();
                   $('.winPopupShadow').show();
-                  if (__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].host === true){
+                  if (__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].host === true){
                     $('.winPopup').html('<br/><br/><br/>' + 'Tie!' + '<br/>Click to reset');
-                    __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].lastPlayer = 'T';
-                    __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].firebaseRef.child('lastWinner').set(__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].lastPlayer);
+                    __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].lastPlayer = 'T';
+                    __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].firebaseRef.child('lastWinner').set(__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].lastPlayer);
                     scorePathTie.once('value', function(snap){
                       scorePathTie.set(snap.val() + 1);
                     });
                   } else {
                     $('.winPopup').html('<br/><br/><br/>' + 'Tie!' + '<br/>Wait for ' + $('.hostName').text() + ' to reset');
-                    __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].lastPlayer = 'T';
-                    __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].firebaseRef.child('closeWinBanner').on('value', function(snap){
+                    __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].lastPlayer = 'T';
+                    __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].firebaseRef.child('closeWinBanner').on('value', function(snap){
                       if (snap.val() === '1'){
                         closeWinBanner(true);
-                        __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].firebaseRef.child('closeWinBanner').off('value');
-                        __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].firebaseRef.child('closeWinBanner').set('0');
+                        __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].firebaseRef.child('closeWinBanner').off('value');
+                        __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].firebaseRef.child('closeWinBanner').set('0');
                       }
                     });
                     }
@@ -173,11 +174,11 @@ function makePlay(){
     event.stopPropagation();
     var targetElement = this;
 
-    __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].firebaseRef.child('lastPlayer').once('value').then(function(snap){
-      if($(targetElement).text() === '' && snap.val() !== __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].playerState && __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].playerState !== 'observer'){
-        $(targetElement).text(__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].playerState);
-        __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].firebaseRef.child('lastPlayer').set(__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].playerState);
-        __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].boardPush();
+    __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].firebaseRef.child('lastPlayer').once('value').then(function(snap){
+      if($(targetElement).text() === '' && snap.val() !== __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].playerState && __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].playerState !== 'observer'){
+        $(targetElement).text(__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].playerState);
+        __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].firebaseRef.child('lastPlayer').set(__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].playerState);
+        __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].boardPush();
       }
     });
   }
@@ -291,7 +292,7 @@ $('.winPopup').click(closeWinBanner);
 $('.lobbyAvatar').click(function(){
   $('.lobbySettingsContainer').toggle();
 });
-$('.launchBtn').on('click', __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].open);
+$('.launchBtn').on('click', __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].open);
 $('.lobbySettingsHeader').on('mousedown', function(e){
   var target = $('.lobbySettingsContainer'),
       offset = {top: e.pageY - target.offset().top, left: e.pageX - target.offset().left};
@@ -323,12 +324,12 @@ $('.lobbySettingsHeader').on('mousedown', function(e){
    }
   });
 });
-$(window).on('unload', __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].leave);
+$(window).on('unload', __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].leave);
 $('.lobbyHeaderSettings').on('click', function(){
   $('.lobbySettingsContainer').toggle();
 });
 $('.lobbyChatInputSubmit').click(function(){
-  __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].lobby.chat.submit($('#lobbyChatInputFieldID').val());
+  __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].lobby.chat.submit($('#lobbyChatInputFieldID').val());
 });
 $('#lobbyChatInputFieldID').keyup(function(e){
   if(e.keyCode === 13){
@@ -339,33 +340,54 @@ $('.lobbySettingsName').click(function(){
   //Abandon all hope ye who code here
   event.stopPropagation();
   var nameInUse = false,
-  parent = $('#lobbySettingsName').replaceWith('<input style="position: relative;top: 4vh;" id="lobbySettingsNameFieldID" type="text" name="lobbySettingsNameField" value="'+__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].userName+'" placeholder="Type a new name here!"></input>'),
-  child = $('#lobbySettingsNameFieldID').keyup(function(e){
+    inputEle =
+    `<input
+      style="position: relative;top: 4vh;"
+      id="lobbySettingsNameFieldID"
+      type="text"
+      name="lobbySettingsNameField"
+      value="${__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].userName}"
+      placeholder="Type a new name here!">
+    </input>`;
+    //console.log(child).
+
+  document.getElementById('lobbySettingsName').outerHTML = inputEle;
+  var child = document.getElementById('lobbySettingsNameFieldID');
+  //console.log(a[0]);
+  child.focus();
+  child.setSelectionRange(0, child.getAttribute('placeholder').length);
+
+
+  child.onkeyup = function(e){
     event.stopPropagation();
     if(e.keyCode === 13){
-      __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].lobby.firebaseRef.child('chat').child('users').once('value', function(snap){
+      __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].lobby.firebaseRef.child('chat').child('users').once('value', function(snap){
         snap.forEach(function(snapChild){
-          if(snapChild.val() === __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].userName){
+          if(snapChild.val() === __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].userName){
             $('.lobbySettingsContainer').hide();
-            __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].lobby.firebaseRef.child('chat').child('users').child(__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].userName).set(null);
+            __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].lobby.firebaseRef.child('chat').child('users').child(__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].userName).set(null);
           } else if (child.val() === snapChild.val()){
             //alert('Name already in use!');
             nameInUse = true;
           }
         });
-        console.log(nameInUse);
+
+        //console.log(nameInUse);
+
         if(nameInUse === false){
-          __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].userName = child.val().replace(/[^a-z ]/ig, '');
-          __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].lobby.firebaseRef.child('chat').child('users').child(__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].userName).set(__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].userName);
-          $('#lobbySettingsNameFieldID').replaceWith('<div id="lobbySettingsName">Current Name: ' + __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].userName + '</br><span class="lobbySettingsNameSubtext">(click to edit)</span></div>');
-          $('#lobbyHeaderNameID').text('Hello, ' + __WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].userName + '!');
+          __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].userName = child.value.replace(/[^a-z ]/ig, '');
+          __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].lobby.firebaseRef.child('chat').child('users').child(__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].userName).set(__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].userName);
+          $('#lobbySettingsNameFieldID').replaceWith(
+            `<div id="lobbySettingsName">Current Name: ${__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].userName} </br><span class="lobbySettingsNameSubtext">(click to edit)</span></div>`);
+          $('#lobbyHeaderNameID').text('Hello, ' + __WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].userName + '!');
         }
       });
-    }
-  });
+    };
+  };
 });
+
 $('.lobbyChatHost').click(function(){
-  if(__WEBPACK_IMPORTED_MODULE_0__sessionModule_jsx__["a" /* default */].userName === 'default'){
+  if(__WEBPACK_IMPORTED_MODULE_0__sessionModule_js__["a" /* default */].userName === 'default'){
     alert('You must have a name to host a game!');
     return false;
   }
@@ -388,6 +410,9 @@ $('.fileinputButton').on('change', function(e){
       });
       //a is the blob URI that leads to the image, upload at your own peril.
 });
+$('.userLogin').on('click', function(){
+  __WEBPACK_IMPORTED_MODULE_1__authModule_js__["a" /* default */].signIn();
+})
 // });
 
 
@@ -396,6 +421,7 @@ $('.fileinputButton').on('change', function(e){
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+
 var session =  {
   fbconfig: {
     apiKey: "AIzaSyCWcbz2SwfHQDkVq9qu0_UmJT9giOVNVrM",
@@ -408,7 +434,7 @@ var session =  {
   lobby: {
     listWatch: function(){
       var divChild = undefined;
-      //add to lobby list
+      //add to lobbyli st
       session.lobby.gamesRef.on('child_added', function(snap){
         divChild = $(`<div class="lobbyGameListItem"><div class="lobbyGameListIcon ${snap.key}"></div><span class="lobbyGameListText ${snap.key}">${snap.child('gameName/').val()}: ${snap.child('hostName/').val()}</span></div>`);
         $('.lobbyGameList').append(divChild);
@@ -430,16 +456,16 @@ var session =  {
 
         switch(snap.child('gameState/').val()){
           case 'unhosted':
-            jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.yell);
+            jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', session.colorScheme.yell);
             break;
           case 'hosted':
-            jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.grn);
+            jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', session.colorScheme.grn);
             break;
           case 'empty':
-            jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.grn);
+            jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', session.colorScheme.grn);
             break;
           case 'full':
-            jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', colorScheme.red);
+            jqueryTar.children(`.lobbyGameListIcon.${snap.key}`).css('background-color', session.colorScheme.red);
             break;
           default:
           break;
@@ -479,7 +505,7 @@ var session =  {
           var chatItemDiv = $('<div class="lobbyChatUserItem">'+snap.val()+'</div>'),
            child = chatItemDiv.appendTo(session.lobby.chat.userListArea);
           if(child.text() === session.userName){
-            child.css('background-color', colorScheme.grn);
+            child.css('background-color', session.colorScheme.grn);
           }
         });
         session.lobby.firebaseRef.child('chat').child('users').on('child_removed', function(snap){
@@ -696,6 +722,40 @@ var session =  {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (session);
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var firebaseAuth = {
+  provider: new firebase.auth.FacebookAuthProvider(),
+  authModule: function(){
+    console.log('hello');
+  },
+  signIn: function(){
+    firebase.auth().signInWithPopup(firebaseAuth.provider).then(function(result) {
+      // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+      var token = result.credential.accessToken;
+      // The signed-in user info.
+      var user = result.user;
+      // ...
+      }).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // ...
+      });
+  },
+  red: 'blue'
+
+}
+/* harmony default export */ __webpack_exports__["a"] = (firebaseAuth);
 
 
 /***/ })

@@ -1,7 +1,9 @@
+var path = require('path');
+
 module.exports = {
-  entry: './js/jscript.jsx',
+  entry: './js/scripts.js',
   output: {
-    path: '/mnt/c/Users/Lousaydus/Documents/ticTacToe/js/',
+    path: path.resolve(__dirname, 'js'),
     filename: 'jscript.js'
   }
 };

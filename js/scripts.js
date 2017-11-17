@@ -3,7 +3,7 @@
 // $(document).ready(function(){
 //"Global" Vars
 
-import session from './sessionModule.jsx';
+import session from './sessionModule.js';
 
 firebase.initializeApp(session.fbconfig);
 session.lobby.firebaseRef = firebase.database().ref('/lobby/');
@@ -14,14 +14,14 @@ session.lobby.chat.userWatch();
 $('.winPopup').hide();
 $('.hostMenu').hide();
 $('.sesID').text(session.ID + ' ');
-
+import firebaseAuth from './authModule.js';
 
 function closeWinBanner(overrideHost){
   if (session.host === true || overrideHost === true){
       event.stopPropagation();
       $('.winPopup').hide();
       $('.winPopupShadow').hide();
-      $('.content2').css('background-color', colorScheme.red);
+      $('.content2').css('background-color', session.colorScheme.red);
       session.lastPlayer = 'O';
       session.firebaseRef.child('tttArray').set('EEEEEEEEE');
       session.firebaseRef.child('lastPlayer').set('O');
@@ -48,9 +48,9 @@ function checkScenario(a, b, c){
         if (session.tttArray[a].textContent === session.tttArray[b].textContent &&
             session.tttArray[a].textContent === session.tttArray[c].textContent &&
             session.tttArray[a].textContent != ''){
-                session.tttArray[a].style.backgroundColor = colorScheme.green;
-                session.tttArray[b].style.backgroundColor = colorScheme.green;
-                session.tttArray[c].style.backgroundColor = colorScheme.green;
+                session.tttArray[a].style.backgroundColor = session.colorScheme.green;
+                session.tttArray[b].style.backgroundColor = session.colorScheme.green;
+                session.tttArray[c].style.backgroundColor = session.colorScheme.green;
                 session.firebaseRef.child('lastPlayer').once('value').then(function(winner){
                   $('.winPopup').show();
                   $('.winPopupShadow').show();
@@ -267,8 +267,25 @@ $('.lobbySettingsName').click(function(){
   //Abandon all hope ye who code here
   event.stopPropagation();
   var nameInUse = false,
-  parent = $('#lobbySettingsName').replaceWith('<input style="position: relative;top: 4vh;" id="lobbySettingsNameFieldID" type="text" name="lobbySettingsNameField" value="'+session.userName+'" placeholder="Type a new name here!"></input>'),
-  child = $('#lobbySettingsNameFieldID').keyup(function(e){
+    inputEle =
+    `<input
+      style="position: relative;top: 4vh;"
+      id="lobbySettingsNameFieldID"
+      type="text"
+      name="lobbySettingsNameField"
+      value="${session.userName}"
+      placeholder="Type a new name here!">
+    </input>`;
+    //console.log(child).
+
+  document.getElementById('lobbySettingsName').outerHTML = inputEle;
+  var child = document.getElementById('lobbySettingsNameFieldID');
+  //console.log(a[0]);
+  child.focus();
+  child.setSelectionRange(0, child.getAttribute('placeholder').length);
+
+
+  child.onkeyup = function(e){
     event.stopPropagation();
     if(e.keyCode === 13){
       session.lobby.firebaseRef.child('chat').child('users').once('value', function(snap){
@@ -281,17 +298,21 @@ $('.lobbySettingsName').click(function(){
             nameInUse = true;
           }
         });
-        console.log(nameInUse);
+
+        //console.log(nameInUse);
+
         if(nameInUse === false){
-          session.userName = child.val().replace(/[^a-z ]/ig, '');
+          session.userName = child.value.replace(/[^a-z ]/ig, '');
           session.lobby.firebaseRef.child('chat').child('users').child(session.userName).set(session.userName);
-          $('#lobbySettingsNameFieldID').replaceWith('<div id="lobbySettingsName">Current Name: ' + session.userName + '</br><span class="lobbySettingsNameSubtext">(click to edit)</span></div>');
+          $('#lobbySettingsNameFieldID').replaceWith(
+            `<div id="lobbySettingsName">Current Name: ${session.userName} </br><span class="lobbySettingsNameSubtext">(click to edit)</span></div>`);
           $('#lobbyHeaderNameID').text('Hello, ' + session.userName + '!');
         }
       });
-    }
-  });
+    };
+  };
 });
+
 $('.lobbyChatHost').click(function(){
   if(session.userName === 'default'){
     alert('You must have a name to host a game!');
@@ -316,4 +337,7 @@ $('.fileinputButton').on('change', function(e){
       });
       //a is the blob URI that leads to the image, upload at your own peril.
 });
+$('.userLogin').on('click', function(){
+  firebaseAuth.signIn();
+})
 // });

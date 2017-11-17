@@ -31,6 +31,9 @@ body {
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
   background-color: $cs-blueLightest;
 }
+.fileinputButton{
+  display: none;
+}
 
 .lobbySettingsName {
   width: 100%;
@@ -164,6 +167,7 @@ body {
   border-radius: 10px;
   background-color: white;
   flex: 1;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0,0.35 );
 
 }
 
